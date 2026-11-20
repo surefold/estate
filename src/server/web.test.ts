@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { mkdtempSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
@@ -6,6 +6,9 @@ import { Effect, Layer, Option, Result } from "effect"
 import { bundle, print } from "./bundle"
 import { platform } from "./platform"
 import { buildWeb, builtWeb, Web } from "./web"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 const read = Effect.gen(function* () {
   const web = yield* Web

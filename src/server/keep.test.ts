@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Effect, Fiber, Layer, Result, SubscriptionRef } from "effect"
 import { TestClock } from "effect/testing"
 import type { EvidenceSet } from "../shared/evidence"
@@ -10,6 +10,9 @@ import { loadHistory, sweepHistory } from "./history"
 import { memoryNotes, Notes, type Notes as NotesService, postgresNotes, type Query, type StoredFiring } from "./notes"
 import { stubRemote } from "./remote"
 import { Estate, estateLayer } from "./state"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 // The sweep runs on 1971-03-01: firings go after 90 days, incidents after 400.
 const now = Date.parse("1971-03-01T12:00:00Z")

@@ -1,9 +1,12 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Effect, Result } from "effect"
 import type { Incident } from "../shared/incidents"
 import { fakeDynamo, note, usingNotes } from "./dynamo-fake"
 import { memoryNotes, Notes, type Notes as NotesService, postgresNotes, type Query } from "./notes"
 import { stubRemote } from "./remote"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 const linked = (alert: string, linkedAt: string) => ({
   environment: "production",

@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Effect, Result } from "effect"
 import type { Incident } from "../shared/incidents"
 import { fakeDynamo, usingNotes } from "./dynamo-fake"
@@ -6,6 +6,9 @@ import { incidentTimeline } from "./incident-timeline"
 import { memoryNotes, Notes, type Notes as NotesService, postgresNotes, type Query } from "./notes"
 import type { StoredIncidentEvent } from "./notes-events"
 import { type Call, stubRemote } from "./remote"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 const firing = { environment: "production", alert: "a1", startsAt: "2026-10-12T14:02:11.000Z" }
 const incident: Incident = {

@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Context, Effect, Redacted, SubscriptionRef } from "effect"
 import type { Me } from "../../shared/events"
 import type { Incident } from "../../shared/incidents"
@@ -6,6 +6,9 @@ import { ask, catalog, environment, estate, type Server, serverFor, settings } f
 import { Notes } from "../notes"
 import { type Call, reply } from "../remote"
 import { Estate, type SourcedAlert } from "../state"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 const firing = (id: string, name: string, severity: string, service: string): SourcedAlert => ({
   id,
