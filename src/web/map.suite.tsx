@@ -1,6 +1,7 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Dead vs live map edges on the page: run by `map.test.ts` once Solid's compiler is in place. */
 import { describe, expect, spyOn, test } from "bun:test"
+import { flush } from "solid-js"
 import { events, listening } from "./fixture"
 import { mount } from "./harness"
 import * as layouts from "./layout"
@@ -68,11 +69,13 @@ describe("the map's layout", () => {
       ...events.services,
       services: events.services.services.map((each) => ({ ...each, health: "critical" as const })),
     })
+    flush()
     expect(page.container.querySelector(".map-node.critical")).not.toBeNull()
     expect(laid.mock.calls.length).toBe(first)
     const catalog = events.catalog
     if (catalog === undefined) throw new Error("no catalog")
     send("catalog", { ...catalog, map: { ...catalog.map, edges: catalog.map.edges.slice(1) } })
+    flush()
     expect(laid.mock.calls.length).toBe(first + 1)
     laid.mockRestore()
     page.dispose()

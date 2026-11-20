@@ -1,9 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The estate as areas (spec 0062): a card an area with every part named, what needs someone first, rows of where
  * traffic meets trouble, and a part picked to show what calls it and what it calls.
  */
-import { createMemo, createSignal, For, type JSX, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createMemo, createSignal, For, Show } from "solid-js"
 import type { CatalogEvent, Health, ServicesEvent } from "../../shared/events"
 import { type Area, areasOf, type Next, needs, neighboursOf, type Part, troubleOf } from "../areas"
 import { amount } from "../format"
@@ -147,9 +149,8 @@ export const MapAreas = (props: { readonly catalog: CatalogEvent; readonly servi
                   {(part) => (
                     <button
                       type="button"
-                      class={`map-part ${part.health}`}
-                      classList={{ "map-near": nearIds().has(part.id) }}
-                      aria-pressed={picked() === part.id}
+                      class={[`map-part ${part.health}`, { "map-near": nearIds().has(part.id) }]}
+                      aria-pressed={picked() === part.id ? "true" : "false"}
                       onClick={() => pick(part.id)}
                     >
                       <Dot health={part.health} />

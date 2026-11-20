@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An incident's notes on a past firing's page and in *What changed today*, and every change there opening what it is
  * about: run by `notes-everywhere.test.ts` once Solid's compiler is in place.

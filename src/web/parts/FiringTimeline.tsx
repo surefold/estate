@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What happened to a firing, in order: each event with its date and time to the second, who did it, and what. */
-import { createEffect, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import type { FiringEvent } from "../../shared/timeline"
 import { useEstate, useSnapshot } from "../context"
 import { TimelineRow } from "./TimelineRow"
@@ -15,15 +15,16 @@ export const FiringTimeline = (props: {
   const snapshot = useSnapshot()
   const [events, setEvents] = createSignal<ReadonlyArray<FiringEvent> | "unread" | undefined>("unread")
   createEffect(
-    on([() => props.alert, () => props.startsAt, () => snapshot.environment, () => props.refresh], ([alert, at]) => {
+    () => [props.alert, props.startsAt, snapshot.environment, props.refresh] as const,
+    ([alert, at]) => {
       let current = true
       void actions.events(alert, at).then((found) => {
         if (current) setEvents(found)
       })
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   return (
     <Show when={events() !== "unread"}>

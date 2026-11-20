@@ -1,11 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An incident's own page: who opened it and when, how long it has been open or how it ended, its firings, its services
  * and window, its notes, and every event of it and its firings merged in order, each saying which alert it was on, or
  * that it was on the incident.
  * Incidents span environments, so it is read whole, whichever environment the page is in.
  */
-import { createEffect, createSignal, For, on, onCleanup, onMount, Show } from "solid-js"
+import { createEffect, createSignal, For, onCleanup, Show } from "solid-js"
 import type { Incident, IncidentEvent, IncidentRecord } from "../../shared/incidents"
 import { longestNote } from "../../shared/note"
 import { onIncident } from "../../shared/timeline"
@@ -45,6 +45,11 @@ const Closing = (props: { readonly incident: Incident; readonly done: () => void
   const [how, setHow] = createSignal("")
   const [busy, setBusy] = createSignal(false)
   const [refused, setRefused] = createSignal<string | undefined>(undefined)
+  let box: HTMLInputElement | undefined
+  // The button that opened this is gone, so the focus comes to how it ended rather than to the page.
+  createEffect(open, (shown) => {
+    if (shown) box?.focus()
+  })
   const close = () => {
     const ended = how().trim()
     if (ended === "" || busy()) return
@@ -70,16 +75,15 @@ const Closing = (props: { readonly incident: Incident; readonly done: () => void
         </div>
       }
     >
-      <fieldset class="silencing incident-close" aria-busy={busy()}>
+      <fieldset class="silencing incident-close" aria-busy={busy() ? "true" : "false"}>
         <legend class="legend">Close {props.incident.title}</legend>
         <label class="reason">
           How it ended (required, kept on its record)
           <input
-            // The button that opened this is gone, so the focus comes here rather than to the page.
-            ref={(box) => onMount(() => box.focus())}
+            ref={box}
             type="text"
             value={how()}
-            maxLength={longestNote}
+            maxlength={longestNote}
             onInput={(event) => setHow(event.currentTarget.value)}
             placeholder="e.g. registry restarted, adoptions recovering"
             class="amber-input"
@@ -90,7 +94,7 @@ const Closing = (props: { readonly incident: Incident; readonly done: () => void
             type="button"
             class="primary-button"
             disabled={how().trim() === "" || busy()}
-            aria-busy={busy()}
+            aria-busy={busy() ? "true" : "false"}
             onClick={close}
           >
             <Show when={busy()} fallback="Close incident">
@@ -173,15 +177,16 @@ export const IncidentPage = (props: { readonly id: string }) => {
   // Bumped after a change here, so the record and its events are read again as the server now has them.
   const [changes, setChanges] = createSignal(0)
   createEffect(
-    on([() => props.id, changes], ([id]) => {
+    () => [props.id, changes()] as const,
+    ([id]) => {
       let current = true
       void actions.incident(id).then((found) => {
         if (current) setRead(found)
       })
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   const found = () => {
     const value = read()

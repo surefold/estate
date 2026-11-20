@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A Kafka cluster's consumer groups (spec 0057), on the diagram's right: each group's members, lag and its growth, a
  * flow out of the cluster as fast as it reads, and a partition far behind the rest called out. Choosing a group marks
@@ -70,7 +70,7 @@ export const Groups = (props: {
                 <button
                   type="button"
                   class={`kafka-card${lagging(group) ? " attention" : ""}${marked(group) ? " marked" : ""}${followClass(following(group))}`}
-                  aria-pressed={isChosen(group)}
+                  aria-pressed={isChosen(group) ? "true" : "false"}
                   onClick={() => props.choose(isChosen(group) ? undefined : { group: group.name })}
                 >
                   <strong>{group.name}</strong>{" "}

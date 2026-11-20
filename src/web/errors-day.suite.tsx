@@ -1,11 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's errors over the last day on its page, in happy-dom: run by `errors-day.test.ts`. */
 import { describe, expect, jest, test } from "bun:test"
-import { createSignal } from "solid-js"
+import { createSignal, flush } from "solid-js"
 import type { ErrorGroups } from "../shared/log-events"
 import type { Actions } from "./context"
 import { groups } from "./fixture-logs"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { ServicePage } from "./pages/Service"
 import { recording } from "./recording"
 import type { LogsShown } from "./route"
@@ -135,6 +135,7 @@ describe("a service's errors over the last day", () => {
     await page.settle()
     expect(pressed(page.container)).toEqual(["Errors", "24h"])
     setLogs(undefined)
+    flush()
     expect(pressed(page.container)).toEqual(["Live"])
     page.dispose()
   })
@@ -152,7 +153,7 @@ describe("a service's errors over the last day", () => {
       jest.advanceTimersByTime(15 * 60_000)
       expect(reads()).toBe(2)
       Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" })
-      document.dispatchEvent(new Event("visibilitychange"))
+      fire(document, new Event("visibilitychange"))
       expect(reads()).toBe(3)
       page.dispose()
     } finally {

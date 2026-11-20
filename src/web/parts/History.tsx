@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Whether an alert has fired before: how often, when last and for how long, and the last note written about it; and
  * its earlier firings, each with who silenced it and why, and its notes.
@@ -30,7 +30,12 @@ export const History = (props: { readonly alert: Alert }) => {
               {history().length === 1 ? "once" : `${history().length} times`}, last {since(last().startsAt, now())} ago
               {last().endsAt === undefined ? "" : ` for ${lasted(last())}`}
             </span>
-            <button type="button" class="plain-button" aria-expanded={open()} onClick={() => setOpen(!open())}>
+            <button
+              type="button"
+              class="plain-button"
+              aria-expanded={open() ? "true" : "false"}
+              onClick={() => setOpen(!open())}
+            >
               {open() ? "Hide history" : "History"}
             </button>
           </p>

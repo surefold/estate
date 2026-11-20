@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** *Summary* on an incident's page (spec 0051): run by `incident-summary.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Me } from "../shared/events"

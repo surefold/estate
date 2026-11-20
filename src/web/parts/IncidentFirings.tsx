@@ -1,9 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An incident's firings, each linking to its alert's live page while it fires or to its past firing's page once it
  * has resolved, in its own environment; operators unlink one while the incident is open.
  */
-import { createSignal, For, type JSX, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createSignal, For, Show } from "solid-js"
 import type { Incident, IncidentRecord } from "../../shared/incidents"
 import { useEstate, useSnapshot } from "../context"
 import { stamp } from "../format"
@@ -99,7 +101,7 @@ export const IncidentFirings = (props: {
                     type="button"
                     class="amber-button ghost"
                     disabled={busy() !== undefined}
-                    aria-busy={busy() === firing}
+                    aria-busy={busy() === firing ? "true" : "false"}
                     aria-label={`Unlink ${firing.name ?? firing.alert} in ${firing.environment}`}
                     onClick={() => unlink(firing)}
                   >

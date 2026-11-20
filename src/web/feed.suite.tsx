@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What changed today as the overview draws it (spec 0068): run by `feed.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { FeedEvent } from "../shared/feed"

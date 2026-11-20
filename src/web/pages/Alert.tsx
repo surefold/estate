@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One alert's own page, to share: what's happening, what is around it and who owns it. The card carries the links to
  * the runbook, the logs and the team, and Ask AI, so the page does not repeat them.
  */
-import { createEffect, createSignal, on, onCleanup, Show } from "solid-js"
+import { createEffect, createSignal, Show } from "solid-js"
 import type { PastFiring } from "../../shared/firing"
 import { useEstate, useSnapshot } from "../context"
 import { day } from "../format"
@@ -24,15 +24,16 @@ const LastFiring = (props: { readonly id: string }) => {
   const snapshot = useSnapshot()
   const [last, setLast] = createSignal<PastFiring | undefined>(undefined)
   createEffect(
-    on([() => props.id, () => snapshot.environment], ([id]) => {
+    () => [props.id, snapshot.environment] as const,
+    ([id]) => {
       let current = true
       void actions.firing(id).then((found) => {
         if (current) setLast(typeof found === "object" ? found : undefined)
       })
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   return (
     <Show when={last()}>

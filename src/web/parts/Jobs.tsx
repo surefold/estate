@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's jobs: each one's schedule, its last runs and how they ended, and when it runs next. */
 import { For, Show } from "solid-js"
 import type { Job } from "../../shared/events"

@@ -1,9 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A hand-drawn chart that can be read: pointing at it, or stepping with the keys, marks the nearest point; dragging
  * across it zooms to that span. The mark is a moment, not an index, so charts of one range can share it.
  */
-import { createMemo, createSignal, For, type JSX, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createMemo, createSignal, For, Show } from "solid-js"
 import { indexAt, shape, timeOf, visible, whole, type Zoom } from "../chart"
 
 export interface PlotProps {

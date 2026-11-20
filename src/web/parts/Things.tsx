@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * What needs you, a row a thing (spec 0068): its number, kind, title, one line, owners and age. An incident's row
  * opens to its alerts' rows, an alert's to its card, in place.
  */
-import { For, Index, Show } from "solid-js"
+import { For, Show } from "solid-js"
 import type { CatalogEvent } from "../../shared/events"
 import { useEstate } from "../context"
 import { cardFold } from "../fold"
@@ -56,7 +56,7 @@ const ThingRow = (props: Shown & { readonly thing: Thing; readonly number: numbe
             type="button"
             ref={toggle}
             class="row-toggle"
-            aria-expanded={open()}
+            aria-expanded={open() ? "true" : "false"}
             aria-controls={held()}
             onClick={() => setOpen(!open())}
           >
@@ -104,11 +104,11 @@ export const Things = (props: Shown & { readonly things: ReadonlyArray<Thing> })
       fallback={<p class="muted flush">Nothing. When something does, it appears here first.</p>}
     >
       <ol class="things">
-        <Index each={props.things}>
+        <For keyed={false} each={props.things}>
           {(thing, index) => (
             <ThingRow thing={thing()} number={index + 1} catalog={props.catalog} canSilence={props.canSilence} />
           )}
-        </Index>
+        </For>
       </ol>
     </Show>
   </section>

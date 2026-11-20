@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** How the open incident unfolded, oldest first, then a box to add a note to it (spec 0068). */
 import { createSignal, For, Show } from "solid-js"
 import { longestNote } from "../../shared/note"
@@ -28,7 +28,7 @@ export const Unfolded = (props: { readonly incident: Thing }) => {
     })
   }
   return (
-    <section aria-labelledby="unfolded" class="panel section-box stack unfolded" aria-busy={busy()}>
+    <section aria-labelledby="unfolded" class="panel section-box stack unfolded" aria-busy={busy() ? "true" : "false"}>
       <div class="spread">
         <h2 id="unfolded" class="needs-title">
           How it unfolded
@@ -85,13 +85,13 @@ export const Unfolded = (props: { readonly incident: Thing }) => {
             <input
               type="text"
               value={draft()}
-              maxLength={longestNote}
+              maxlength={longestNote}
               onInput={(event) => setDraft(event.currentTarget.value)}
               placeholder="Add a note for whoever looks next"
               class="amber-input"
             />
           </label>
-          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy()}>
+          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy() ? "true" : "false"}>
             {busy() ? "Adding…" : "Add note"}
           </button>
         </form>

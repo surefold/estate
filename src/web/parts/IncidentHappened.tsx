@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Add what happened*: a line on an open incident for what Estate cannot see, at the time it happened, now unless
  * given. Anyone who may write adds one; the server keeps who and when, and refuses a time outside the window.
@@ -39,7 +39,7 @@ export const IncidentHappened = (props: {
     <Show when={props.incident.closedAt === undefined && me.readOnly !== true && me.kiosk !== true}>
       <form
         class="note-form incident-happened"
-        aria-busy={busy()}
+        aria-busy={busy() ? "true" : "false"}
         onSubmit={(event) => {
           event.preventDefault()
           add()
@@ -50,7 +50,7 @@ export const IncidentHappened = (props: {
           <input
             type="text"
             value={text()}
-            maxLength={longestNote}
+            maxlength={longestNote}
             onInput={(event) => setText(event.currentTarget.value)}
             placeholder="What happened that Estate cannot see, e.g. rolled the registry back by hand"
             class="amber-input"
@@ -65,7 +65,7 @@ export const IncidentHappened = (props: {
             class="amber-input"
           />
         </label>
-        <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy()}>
+        <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy() ? "true" : "false"}>
           Add what happened
         </button>
       </form>

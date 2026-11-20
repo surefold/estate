@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Many alerts at once as rows, an incident's grouped as one problem and worst first, each opening in place; or their
  * cards, as the layout chosen says.

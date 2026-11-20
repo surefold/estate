@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Builds on main for a service, and a short "what changed" framing for the investigation path. */
 import { For, Show } from "solid-js"
 import type { DeploysEvent } from "../../shared/events"

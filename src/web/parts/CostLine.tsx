@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An entry's cost under its name, with where the figures come from on hover. */
 import { Show } from "solid-js"
 import { type Cost, costLine } from "../../shared/costs"

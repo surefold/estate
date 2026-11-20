@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Every incident kept, open ones first and then closed, newest first, each opening its own page. */
-import { createSignal, For, onMount, Show } from "solid-js"
+import { createSignal, For, onSettled, Show } from "solid-js"
 import type { Incident } from "../../shared/incidents"
 import { useEstate } from "../context"
 import { counted, day, duration, since } from "../format"
@@ -29,7 +29,7 @@ export const Incidents = () => {
   const { now, actions } = useEstate()
   const [incidents, setIncidents] = createSignal<ReadonlyArray<Incident> | "reading" | undefined>("reading")
   const [filter, setFilter] = createSignal<Filter>("all")
-  onMount(() => {
+  onSettled(() => {
     void actions.allIncidents().then(setIncidents)
   })
   const read = () => {
@@ -61,7 +61,7 @@ export const Incidents = () => {
             {(each) => (
               <button
                 type="button"
-                aria-pressed={filter() === each.value}
+                aria-pressed={filter() === each.value ? "true" : "false"}
                 class="filter"
                 onClick={() => setFilter(each.value)}
               >

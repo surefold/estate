@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A Postgres or cnpg store's cluster now (spec 0060), in spec 0057's layout: the clients connected on the left, the
  * instances as columns with the primary first, and where the primary's WAL goes on the right. Read when the page

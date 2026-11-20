@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's load and stats, or a store's stats, over a chosen range. */
-import { createEffect, createMemo, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { createEffect, createMemo, createSignal, For, Show, untrack } from "solid-js"
 import type { Alert, Load as Read, Series } from "../../shared/events"
 import { loadPanels } from "../../shared/stats"
 import { onScreen, reading, whole, type Zoom } from "../chart"
@@ -70,7 +70,7 @@ export const Chart = (props: {
     return marks.length === 0 ? "" : ` Marked: ${marks.map((mark) => mark.label).join("; ")}.`
   }
   return (
-    <figure class="chart" classList={{ "chart-picked": props.of !== undefined && shared.pick?.has(props.of.panel) }}>
+    <figure class={["chart", { "chart-picked": props.of !== undefined && shared.pick?.has(props.of.panel) }]}>
       <figcaption class="spread">
         <span class="chart-name">
           <Show when={shared.pick?.on() ? props.of : undefined}>
@@ -143,22 +143,26 @@ export const Load = (props: {
   const [zoom, setZoom] = createSignal<Zoom>(whole)
   const [readAt, setReadAt] = createSignal(now())
   createEffect(
-    on([range, () => props.name], ([chosen, name]) => {
+    () => [range(), props.name] as const,
+    ([chosen, name]) => {
       let current = true
-      onCleanup(() => {
-        current = false
-      })
       if (chosen !== "1h")
         void props.read(name, chosen).then((read) => {
           if (!current) return
           setLoad(read)
           setReadAt(now())
         })
-    }),
+      return () => {
+        current = false
+      }
+    },
   )
   const shown = () => (range() === "1h" ? props.hour : load())
   // The last hour ends when its event came; a longer range when it was read.
-  const heard = createMemo(on(() => props.hour, now))
+  const heard = createMemo(() => {
+    void props.hour
+    return untrack(now)
+  })
   const end = () => (range() === "1h" ? heard() : readAt())
   const limit = () =>
     props.alerts.find((alert) => alert.chart !== undefined && /latency|slow|p99|duration/i.test(alert.name))?.chart
@@ -211,7 +215,12 @@ export const Load = (props: {
           </Show>
           <For each={ranges}>
             {(each) => (
-              <button type="button" aria-pressed={range() === each} class="filter" onClick={() => choose(each)}>
+              <button
+                type="button"
+                aria-pressed={range() === each ? "true" : "false"}
+                class="filter"
+                onClick={() => choose(each)}
+              >
                 {each}
               </button>
             )}

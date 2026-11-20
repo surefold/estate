@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An alert as one row among many, that opens its card in place; which are open is kept while Estate is open. */
 import { Show } from "solid-js"
 import type { Alert, CatalogEvent } from "../../shared/events"
@@ -33,7 +33,7 @@ export const AlertRow = (props: Shown & { readonly alert: Alert }) => {
           ref={toggle}
           type="button"
           class="row-toggle"
-          aria-expanded={open()}
+          aria-expanded={open() ? "true" : "false"}
           aria-controls={card()}
           onClick={() => setOpen(!open())}
         >

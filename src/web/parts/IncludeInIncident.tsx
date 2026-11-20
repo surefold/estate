@@ -1,10 +1,10 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Include in incident* (spec 0051): what the page shows, kept in one of the incidents open now with a line on why.
  * Offered to anyone who may write, while an incident is open; a screen and a read-only Estate change nothing. Several
  * things picked together (spec 0063) go in one press, stopping at the first the server refuses.
  */
-import { createSignal, For, onMount, Show } from "solid-js"
+import { createSignal, For, onSettled, Show } from "solid-js"
 import type { Incident } from "../../shared/incidents"
 import type { Included } from "../../shared/included"
 import { type Actions, useEstate } from "../context"
@@ -41,7 +41,7 @@ export const IncludeInIncident = (props: {
   const [busy, setBusy] = createSignal(false)
   const [told, setTold] = createSignal("")
   const [refused, setRefused] = createSignal<string | undefined>(undefined)
-  onMount(() => {
+  onSettled(() => {
     if (me.kiosk !== true && me.readOnly !== true) void openNow(actions, Date.now()).then(setOpen)
   })
   const include = (incident: Incident) => {
@@ -83,7 +83,7 @@ export const IncludeInIncident = (props: {
           </>
         }
       >
-        <fieldset class="silencing include-chooser" aria-busy={busy()}>
+        <fieldset class="silencing include-chooser" aria-busy={busy() ? "true" : "false"}>
           <legend class="visually-hidden">{props.label}</legend>
           <Show when={props.hint}>{(hint) => <p class="muted flush">{hint()}</p>}</Show>
           <label class="reason include-why">
@@ -92,7 +92,7 @@ export const IncludeInIncident = (props: {
               type="text"
               class="amber-input"
               value={why()}
-              maxLength={200}
+              maxlength={200}
               placeholder="e.g. the queue starts climbing here"
               onInput={(event) => setWhy(event.currentTarget.value)}
             />

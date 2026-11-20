@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What happened, written on an incident's page, and the marks on what was written or rebuilt: run by its `.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import type { Me } from "../shared/events"

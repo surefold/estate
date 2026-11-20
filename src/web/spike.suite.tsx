@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A spike drawn on the requests spark and chart: run by `spike.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Series } from "../shared/events"

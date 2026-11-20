@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The open incident a firing may belong to (spec 0042), for someone who may link it: the incident, why, and *Link* or
  * *Not this*. A suggestion is a line, never a link made by itself; the line goes once the server's alerts say so.
@@ -54,7 +54,7 @@ export const Suggestion = (props: {
   return (
     <>
       <p>{props.line}</p>
-      <div class="choices" aria-busy={busy()}>
+      <div class="choices" aria-busy={busy() ? "true" : "false"}>
         <button
           type="button"
           class="amber-button ghost"

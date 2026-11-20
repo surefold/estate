@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A journey on a service's page and a trace's own page, in happy-dom: run by `traces.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import { App } from "./App"

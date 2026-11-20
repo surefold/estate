@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A Kafka store's cluster on its page, in happy-dom: run by `kafka-cluster.test.ts` once Solid's compiler is in place. */
 import { describe, expect, jest, test } from "bun:test"
 import type { Events } from "../shared/events"

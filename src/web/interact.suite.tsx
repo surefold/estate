@@ -1,8 +1,8 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What a person does on the page, in happy-dom: run by \`interact.test.ts\` once Solid's compiler is in place. */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import { events, listening, operator } from "./fixture"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { Alerts } from "./pages/Alerts"
 import { Overview } from "./pages/Overview"
 import { ServicePage } from "./pages/Service"
@@ -179,12 +179,12 @@ describe("reading a chart", () => {
   const charts = (page: ReturnType<typeof mount>) => [...page.container.querySelectorAll<SVGSVGElement>(".chart svg")]
   const captions = (page: ReturnType<typeof mount>) =>
     [...page.container.querySelectorAll(".chart figcaption")].map((each) => each.textContent ?? "")
-  const key = (element: Element, name: string) =>
-    element.dispatchEvent(new KeyboardEvent("keydown", { key: name, bubbles: true, cancelable: true }))
-  const pointer = (element: Element, type: string, clientX: number) =>
-    element.dispatchEvent(
-      new PointerEvent(type, { bubbles: type !== "pointerleave", clientX, button: 0, pointerId: 1 }),
-    )
+  const key = (element: Element, name: string) => {
+    fire(element, new KeyboardEvent("keydown", { key: name, bubbles: true, cancelable: true }))
+  }
+  const pointer = (element: Element, type: string, clientX: number) => {
+    fire(element, new PointerEvent(type, { bubbles: type !== "pointerleave", clientX, button: 0, pointerId: 1 }))
+  }
   const wide = (element: Element) =>
     Object.assign(element, {
       getBoundingClientRect: () => ({ left: 0, width: 600, top: 0, height: 110, right: 600, bottom: 110 }),
@@ -238,7 +238,7 @@ describe("reading a chart", () => {
     wide(spark)
     pointer(spark, "pointermove", 590)
     expect(spark.closest(".spark")?.textContent).toMatch(/\d\d:\d\d/)
-    spark.dispatchEvent(new FocusEvent("blur"))
+    fire(spark, new FocusEvent("blur"))
   })
 })
 

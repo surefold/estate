@@ -1,10 +1,9 @@
 /** What every part of the page can reach: the store, the person, where we are, and the actions they may take. */
-import { createContext, useContext } from "solid-js"
-import { createStore, reconcile, unwrap } from "solid-js/store"
+import { createContext, createStore, reconcile, useContext } from "solid-js"
 import type { AgentRun } from "../shared/agents"
 import type { AroundAlert } from "../shared/around"
 import type { AskAnswer } from "../shared/ask"
-import type { Events, Me, ServiceState } from "../shared/events"
+import type { Me, ServiceState } from "../shared/events"
 import type { EvidenceSet } from "../shared/evidence"
 import type { PastFiring } from "../shared/firing"
 import type { Incident, IncidentRecord } from "../shared/incidents"
@@ -177,17 +176,30 @@ export const useSnapshot = (): Snapshot => {
     const now = live.snapshot()
     switch (change.kind) {
       case "heard":
-        setSnapshot({ connection: now.connection, heardAt: now.heardAt })
+        setSnapshot((draft) => {
+          Object.assign(draft, { connection: now.connection, heardAt: now.heardAt })
+        })
         return
-      case "event": {
-        // The other events are the store's own, unchanged, so reconciling passes over them at once.
-        const events = { ...unwrap(snapshot.events), [change.name]: held(now.events[change.name]) } as Partial<Events>
-        const next = { ...unwrap(snapshot), connection: now.connection, heardAt: now.heardAt, events }
-        setSnapshot(reconcile(next, { key: "id", merge: true }))
+      case "event":
+        // The other events are left as they are; only this one is reconciled into what is drawn.
+        setSnapshot((draft) => {
+          Object.assign(draft, { connection: now.connection, heardAt: now.heardAt })
+          const events = draft.events as Record<string, unknown>
+          const before = events[change.name]
+          const value = held(now.events[change.name])
+          if (
+            Array.isArray(before) === Array.isArray(value) &&
+            typeof before === "object" &&
+            before !== null &&
+            typeof value === "object" &&
+            value !== null
+          )
+            reconcile(value, "id")(before)
+          else events[change.name] = value
+        })
         return
-      }
       case "all":
-        setSnapshot(reconcile(held(now) as Snapshot, { key: "id", merge: true }))
+        setSnapshot(reconcile(held(now) as Snapshot, "id"))
         return
     }
   })

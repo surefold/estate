@@ -1,7 +1,7 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's logs on the page, in happy-dom: run by `logs.test.ts` once Solid's compiler is in place. */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { Overview } from "./pages/Overview"
 import { LogsPanel, searchPause } from "./parts/Logs"
 
@@ -87,7 +87,7 @@ describe("a service's live lines", () => {
     expect(picked.map((each) => each.split("\t")[3])).toEqual(["order 41 lost", "slow"])
     page.click(page.button("Save"))
     expect(saved).toEqual([expect.stringMatching(/^storefront-production-\d{4}-\d\d-\d\dT\d{4}\.log$/)])
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }))
+    fire(document, new KeyboardEvent("keydown", { key: "Escape" }))
     expect(page.button("Copy 3 lines")).toBeDefined()
     page.click(page.button(/Copy this line/))
     await page.settle()
@@ -150,7 +150,7 @@ describe("a service's live lines", () => {
       clientHeight: { value: 100 },
       scrollHeight: { value: 400 },
     })
-    list.dispatchEvent(new Event("scroll"))
+    fire(list, new Event("scroll"))
     expect(page.button("Resume")).toBeDefined()
     page.sendLines({ lines: [], skipped: false, failed: "Loki answered 500: down" })
     expect(page.container.textContent).toContain("The logs did not answer: Loki answered 500: down")

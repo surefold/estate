@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Ask AI on an alert's card: run by `ask.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

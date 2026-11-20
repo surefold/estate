@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A found service on the page, in happy-dom: run by `found.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { mount } from "./harness"

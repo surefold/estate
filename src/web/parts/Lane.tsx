@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's lane on the overview: health, pipeline, the last hour, and its links. */
 import { For, Show } from "solid-js"
 import type { CatalogEvent, DeploysEvent, ServiceState } from "../../shared/events"

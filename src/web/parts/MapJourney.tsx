@@ -1,10 +1,10 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A journey on the estate's map: chosen in the map's caption, its route drawn node to node over the dimmed map, each
  * node it passes through numbered with how long it usually spends there. The usual times are the journey's sample,
  * read when it is chosen (spec 0046).
  */
-import { createEffect, createSignal, For, on, Show } from "solid-js"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import type { CatalogEvent } from "../../shared/events"
 import type { JourneySample } from "../../shared/traces"
 import { useEstate, useSnapshot } from "../context"
@@ -26,11 +26,12 @@ export const journeyOnMap = (catalog: () => CatalogEvent) => {
   const journeys = () => catalog().journeys ?? []
   const journey = () => journeys().find((each) => each.name === chosen())
   createEffect(
-    on([() => journey()?.name, () => snapshot.environment], ([name]) => {
+    () => [journey()?.name, snapshot.environment] as const,
+    ([name]) => {
       setSample(undefined)
       if (name === undefined) return
       void actions.journey(name).then((read) => setSample(typeof read === "object" ? read : undefined))
-    }),
+    },
   )
   const choose = (name: string) => {
     const next = chosen() === name ? undefined : name
@@ -62,7 +63,7 @@ export const JourneyChoices = (props: { readonly on: OnMap }) => (
           <button
             type="button"
             class="choice"
-            aria-pressed={props.on.chosen() === journey.name}
+            aria-pressed={props.on.chosen() === journey.name ? "true" : "false"}
             onClick={() => props.on.choose(journey.name)}
           >
             {journey.title}

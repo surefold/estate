@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A service's code health under its cost (spec 0034): its gate, coverage and open alerts, quiet unless its owner
  * should look, each part a link to the tool that says it.

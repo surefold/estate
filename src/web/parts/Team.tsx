@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Who owns something, by its team's title, and the team's links: its chat, its pages, its on-call. */
 import { For, Show } from "solid-js"
 import type { Team } from "../teams"

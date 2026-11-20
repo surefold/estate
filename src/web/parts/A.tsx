@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A link within Estate: followed without reloading the page, keeping the environment. */
-import type { JSX } from "solid-js"
+import type { JSX } from "@solidjs/web"
 import { useEstate } from "../context"
 
 export const A = (props: {

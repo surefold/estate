@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The page's entry: who is asking first, then the live page for the environment chosen. */
+
+import { type JSX, render } from "@solidjs/web"
 import { Option, Schema } from "effect"
-import type { JSX } from "solid-js"
 import { createSignal } from "solid-js"
-import { render } from "solid-js/web"
 import { Me } from "../shared/events"
 import "./styles/tokens.css"
 import "./styles/base.css"

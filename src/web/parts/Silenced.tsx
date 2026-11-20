@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A silenced alert in one row: who silenced it, until when and why, and Unsilence for an operator. */
 import { For, Show } from "solid-js"
 import type { Alert } from "../../shared/events"

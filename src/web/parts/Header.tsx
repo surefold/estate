@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The header: Estate, the environment switcher with each environment's worst, the pages, live, and who you are. */
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js"
+import { createSignal, For, onCleanup, onSettled, Show } from "solid-js"
 import type { Health } from "../../shared/events"
 import { useEstate, useSnapshot } from "../context"
 import { clock, initials } from "../format"
@@ -44,7 +44,7 @@ const Switcher = () => {
     list.style.top = `${below.bottom + 8}px`
     list.style.left = `${below.left}px`
   }
-  onMount(() => list?.addEventListener("toggle", place))
+  onSettled(() => list?.addEventListener("toggle", place))
   onCleanup(() => list?.removeEventListener("toggle", place))
   return (
     <div class="switcher">
@@ -53,7 +53,7 @@ const Switcher = () => {
         type="button"
         class="switcher-button"
         popovertarget="environments"
-        aria-expanded={open()}
+        aria-expanded={open() ? "true" : "false"}
         aria-label={`Environment: ${environment()}${titled() === undefined ? "" : ` ${titled()}`}. Change environment`}
       >
         <span class={`dot ${worst(environment())}`} />
@@ -78,7 +78,7 @@ const Switcher = () => {
               <button
                 type="button"
                 class="switcher-option"
-                aria-current={each.name === environment()}
+                aria-current={each.name === environment() ? "true" : "false"}
                 onClick={() => {
                   list?.hidePopover?.()
                   actions.choose(each.name)
@@ -112,7 +112,7 @@ const Account = () => {
     panel.style.top = `${below.bottom + 8}px`
     panel.style.right = `${Math.max(8, window.innerWidth - below.right)}px`
   }
-  onMount(() => panel?.addEventListener("toggle", place))
+  onSettled(() => panel?.addEventListener("toggle", place))
   onCleanup(() => panel?.removeEventListener("toggle", place))
   const who = () => `${me.name} · ${me.role}${me.readOnly === true ? " · read-only" : ""}`
   return (

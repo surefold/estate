@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Many alerts at once, a row each: run by `alert-rows.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"
 import { events } from "./fixture"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { Alerts } from "./pages/Alerts"
 import { ServicePage } from "./pages/Service"
 import { recording } from "./recording"
@@ -78,7 +78,7 @@ describe("what is firing, a row each", () => {
     expect(opened?.querySelector(".alert-card")?.textContent).toContain("Firing number 1")
     expect(opened?.querySelector(".notes-line")).not.toBeNull()
     const inside = opened?.querySelector("button")
-    inside?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }))
+    if (inside) fire(inside, new KeyboardEvent("keydown", { key: "Escape", bubbles: true }))
     expect(cards(page.container)).toBe(0)
     expect(toggle.getAttribute("aria-expanded")).toBe("false")
     expect(document.activeElement).toBe(toggle)

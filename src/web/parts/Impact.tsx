@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * What an alert means for the people using the product, on its card: as written on the page (with who and when), in
  * the catalog, or on its rule. An operator writes it, edits it, or clears it back to the catalog's or the rule's.
@@ -67,7 +67,7 @@ export const Impact = (props: { readonly alert: Alert }) => {
             value={draft()}
             onInput={(event) => setDraft(event.currentTarget.value)}
             placeholder="What it means for users, every time it fires"
-            maxLength={500}
+            maxlength={500}
           />
         </label>
         <button type="submit" class="amber-button">

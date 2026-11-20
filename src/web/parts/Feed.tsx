@@ -1,9 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * What changed today, newest first, each change opening what it is about; builds and versions that went out together
  * as one line that opens to them, and an alert that followed a version saying so (spec 0068).
  */
-import { For, type JSX, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { For, Show } from "solid-js"
 import type { FeedEvent, FeedItem } from "../../shared/feed"
 import { batchesOf, type Entry } from "../feed-batches"
 import { clock } from "../format"
@@ -71,7 +73,7 @@ const FeedNote = (props: { readonly item: FeedItem }) => (
 )
 
 const Item = (props: { readonly item: FeedItem; readonly after?: string | undefined }) => (
-  <li classList={{ "feed-alert": props.item.kind === "alert" }}>
+  <li class={{ "feed-alert": props.item.kind === "alert" }}>
     <span class="mono muted small">{clock(props.item.at)}</span>
     <span class="dot" style={{ background: dots[props.item.kind] }} />
     <span>

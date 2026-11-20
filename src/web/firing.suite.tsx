@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A past firing's page, and the links to it, in happy-dom: run by `firing.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Events } from "../shared/events"

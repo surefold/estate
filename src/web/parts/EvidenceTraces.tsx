@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The traces an incident's evidence kept, each opening on the trace page, which reads it from what was kept. */
 import { For, Show } from "solid-js"
 import type { KeptTrace } from "../../shared/evidence"

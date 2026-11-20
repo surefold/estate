@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A Kafka store's cluster now (spec 0057), drawn as a developer draws one: topics flowing in on the left, the cluster
  * with each broker holding the partitions it leads, and the consumer groups reading out on the right. Each flow moves
@@ -60,7 +60,7 @@ const Chip = (props: {
   <button
     type="button"
     class={`kafka-chip ${stateOf(props.led.partition)}${props.marked ? " marked" : ""}${carried(props.led, props.written) === undefined ? "" : " carrying"}`}
-    aria-pressed={props.marked}
+    aria-pressed={props.marked ? "true" : "false"}
     onClick={() => props.choose()}
   >
     <span aria-hidden="true">

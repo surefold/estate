@@ -7,10 +7,36 @@ import { solidInBrowser } from "../shared/solid"
 
 let compiling = false
 
+/** What tests have left mounted: drawn away before the document goes, so nothing updates a page that has closed. */
+export const mounted = new Set<() => void>()
+
 export const inBrowser = () => {
   // At an address of its own, as a page is, so links it writes out are whole.
-  if (!GlobalRegistrator.isRegistered) GlobalRegistrator.register({ url: "http://estate.test/" })
+  if (!GlobalRegistrator.isRegistered) {
+    GlobalRegistrator.register({ url: "http://estate.test/" })
+    writesNumbers()
+  }
   if (!compiling) Bun.plugin(solidInBrowser.plugin)
   compiling = true
-  return () => GlobalRegistrator.unregister()
+  return () => {
+    for (const dispose of mounted) dispose()
+    mounted.clear()
+    return GlobalRegistrator.unregister()
+  }
+}
+
+/**
+ * happy-dom writes no text for a `textContent` of `0`, where a browser writes "0"; Solid writes a number as it is, so
+ * a count that starts at nought has nothing to update. Numbers are written as the browser would.
+ */
+const writesNumbers = () => {
+  const own = Object.getOwnPropertyDescriptor(Element.prototype, "textContent")
+  const set = own?.set
+  if (own === undefined || set === undefined) return
+  Object.defineProperty(Element.prototype, "textContent", {
+    ...own,
+    set(this: Element, value: unknown) {
+      set.call(this, typeof value === "number" ? String(value) : value)
+    },
+  })
 }

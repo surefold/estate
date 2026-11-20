@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A journey drawn on the estate's map, in happy-dom: run by `journey-map.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import { withJourney } from "./fixture-traces"

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Menus, dialogs and what is said without a pointer, in happy-dom: run by `menus.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { events } from "./fixture"

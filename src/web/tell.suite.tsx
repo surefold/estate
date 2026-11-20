@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Telling the team on Slack, from an alert's card, in happy-dom: run by `tell.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

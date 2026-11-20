@@ -17,8 +17,9 @@ const choiceOf = <Value extends string>(
   fallback: Value,
 ): Choice<Value> => {
   const preference = kept(key)
+  // A string is never a function, which Solid's types cannot see through a generic.
   const [chosen, setChosen] = createSignal<Value>(
-    options.find((each) => each.value === preference.read())?.value ?? fallback,
+    (options.find((each) => each.value === preference.read())?.value ?? fallback) as Exclude<Value, Function>,
   )
   return {
     chosen,

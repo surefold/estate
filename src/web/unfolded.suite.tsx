@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** How an open incident unfolded, on the overview (spec 0068): run by `unfolded.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

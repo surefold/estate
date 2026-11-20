@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Ask AI about a Kafka store's cluster (spec 0057), where Ask AI is set: the model reads the cluster as Estate read it
  * and answers with a likely cause, its evidence and what to do next, with what the answer took.
@@ -25,7 +25,7 @@ export const ClusterAsk = (props: { readonly store: string }) => {
   }
   return (
     <Show when={me.ai === true}>
-      <div class="kafka-ask" aria-live="polite" aria-busy={asking()}>
+      <div class="kafka-ask" aria-live="polite" aria-busy={asking() ? "true" : "false"}>
         <button type="button" class="amber-button ghost ask-button" disabled={asking()} onClick={ask}>
           {asking() ? "Asking…" : "Ask AI"}
         </button>

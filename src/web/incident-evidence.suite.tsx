@@ -1,10 +1,10 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An incident's kept charts on its page: run by its `.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { EvidenceSet } from "../shared/evidence"
 import { seenLive } from "../shared/timeline"
 import { operator } from "./fixture"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { IncidentPage } from "./pages/Incident"
 import { recording } from "./recording"
 
@@ -69,8 +69,9 @@ describe("an incident's evidence, on its page", () => {
     const [requests] = [...page.container.querySelectorAll(".incident-evidence figure")]
     const svg = requests?.querySelector("svg")
     if (requests === undefined || svg === null || svg === undefined) throw new Error("no kept chart")
-    const key = (name: string) =>
-      svg.dispatchEvent(new KeyboardEvent("keydown", { key: name, bubbles: true, cancelable: true }))
+    const key = (name: string) => {
+      fire(svg, new KeyboardEvent("keydown", { key: name, bubbles: true, cancelable: true }))
+    }
     const caption = () => requests.querySelector("figcaption")?.textContent
     key("End")
     expect(caption()).toMatch(/^storefront requests \(\/s\), production at \d\d:12 ?0\.25\/s$/)

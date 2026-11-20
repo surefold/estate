@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The signed-in page: the header, then the page the address names. */
 import { createEffect, Match, Show, Switch } from "solid-js"
 import { type Estate, EstateContext } from "./context"
@@ -94,11 +94,14 @@ const kioskOf = (page: ReturnType<Estate["page"]>) =>
   page.page === "kiosk" ? { team: page.team, category: page.category } : {}
 
 export const App = (props: { readonly estate: Estate }) => {
-  createEffect(() => {
-    document.title = titleOf(props.estate.page())
-  })
+  createEffect(
+    () => titleOf(props.estate.page()),
+    (title) => {
+      document.title = title
+    },
+  )
   return (
-    <EstateContext.Provider value={props.estate}>
+    <EstateContext value={props.estate}>
       <Show
         when={props.estate.page().page === "kiosk"}
         fallback={
@@ -115,6 +118,6 @@ export const App = (props: { readonly estate: Estate }) => {
       >
         <Kiosk {...kioskOf(props.estate.page())} />
       </Show>
-    </EstateContext.Provider>
+    </EstateContext>
   )
 }

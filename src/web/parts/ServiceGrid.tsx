@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Compact service cards for the overview's grid layout: denser than lanes, still through to the service page. */
 import { For, Show } from "solid-js"
 import type { Alert, CatalogEvent, DeploysEvent, ServiceState } from "../../shared/events"

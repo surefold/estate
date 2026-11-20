@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The overview's top (spec 0068): with an incident open, its impact, likely cause and who last wrote on it, and the
  * way to it; otherwise how many things need you. Beside it, small tiles, a vital's with its hour drawn.
@@ -85,9 +85,7 @@ export const Hero = (props: { readonly events: Partial<Events>; readonly things:
                 fallback={
                   <>
                     <span class="muted small">{tile.label}</span>
-                    <span class="vital-value" classList={{ alarm: tile.alarm }}>
-                      {tile.value}
-                    </span>
+                    <span class={["vital-value", { alarm: tile.alarm }]}>{tile.value}</span>
                     <Show when={tile.note}>{(note) => <span class="muted small">{note()}</span>}</Show>
                   </>
                 }

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A trace as a waterfall, a row per span or wait in time order, and the step chosen in it or in the lanes. */
 import { For, Show } from "solid-js"
 import type { Row, TraceView } from "../../shared/trace-view"
@@ -28,12 +28,12 @@ export const Waterfall = (props: Drawn) => (
       <tbody>
         <For each={props.view.rows}>
           {(row, index) => (
-            <tr classList={{ "trace-row-wait": row.kind === "wait", "trace-row-chosen": props.chosen === index() }}>
+            <tr class={{ "trace-row-wait": row.kind === "wait", "trace-row-chosen": props.chosen === index() }}>
               <th scope="row" style={{ "padding-left": `${8 + row.depth * 14}px` }}>
                 <button
                   type="button"
                   class="trace-step"
-                  aria-pressed={props.chosen === index()}
+                  aria-pressed={props.chosen === index() ? "true" : "false"}
                   onClick={() => props.choose(index())}
                 >
                   {row.title}
@@ -45,9 +45,11 @@ export const Waterfall = (props: Drawn) => (
                 <CutBand {...props} />
                 <Marks {...props} />
                 <span
-                  class={`trace-bar trace-${row.kind}`}
+                  class={[
+                    `trace-bar trace-${row.kind}`,
+                    { "trace-failed": row.failed, "trace-hot": hot(props.view, row) },
+                  ]}
                   aria-hidden="true"
-                  classList={{ "trace-failed": row.failed, "trace-hot": hot(props.view, row) }}
                   style={barAt(row, props.place)}
                 />
               </td>
@@ -61,7 +63,7 @@ export const Waterfall = (props: Drawn) => (
                 <td class="number">
                   <Show when={against(row, props.usual)}>
                     {(compared) => (
-                      <span classList={{ "trace-slow-word": compared().slow }}>
+                      <span class={{ "trace-slow-word": compared().slow }}>
                         {compared().words} <span class="muted mono">({took(compared().p50)})</span>
                       </span>
                     )}
@@ -95,7 +97,7 @@ export const Chosen = (props: { readonly view: TraceView; readonly row: Row; rea
             <dt>Usually</dt>
             <dd>
               <span class="mono">{took(compared().p50)}</span>, the p50 of its recent traces:{" "}
-              <span classList={{ "trace-slow-word": compared().slow }}>{compared().words}</span>
+              <span class={{ "trace-slow-word": compared().slow }}>{compared().words}</span>
             </dd>
           </>
         )}

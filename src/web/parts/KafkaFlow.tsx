@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A line messages flow along (spec 0057): faster and thicker the more a second, still with none; lit where it carried a followed message. */
 import { flowStep } from "../kafka"
 

@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's logs: its lines as they arrive, and its errors grouped by message. */
-import { createEffect, createMemo, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { createEffect, createMemo, createSignal, For, onCleanup, Show } from "solid-js"
 import type { LogLine } from "../../shared/log-events"
 import { replaceAddress } from "../address"
 import { useEstate, useSnapshot } from "../context"
@@ -51,29 +51,27 @@ const Live = (props: { readonly service: string }) => {
   const [box, setBox] = createSignal<HTMLOListElement | undefined>(undefined)
   const toEnd = () => queueMicrotask(() => box()?.scrollTo({ top: box()?.scrollHeight ?? 0 }))
   createEffect(
-    on(
-      () => props.service,
-      (service) => {
-        setLines([])
-        setWaiting([])
-        setPicked(new Set<string>())
-        setMissing(false)
-        const stop = actions.watchLogs(service, {
-          from: setFrom,
-          missing: () => setMissing(true),
-          batch: (batch) => {
-            setFailed(batch.failed)
-            if (batch.skipped) setSkipped(true)
-            if (paused()) setWaiting((before) => joined(before, batch.lines))
-            else {
-              setLines((before) => joined(before, batch.lines))
-              toEnd()
-            }
-          },
-        })
-        onCleanup(stop)
-      },
-    ),
+    () => props.service,
+    (service) => {
+      setLines([])
+      setWaiting([])
+      setPicked(new Set<string>())
+      setMissing(false)
+      const stop = actions.watchLogs(service, {
+        from: setFrom,
+        missing: () => setMissing(true),
+        batch: (batch) => {
+          setFailed(batch.failed)
+          if (batch.skipped) setSkipped(true)
+          if (paused()) setWaiting((before) => joined(before, batch.lines))
+          else {
+            setLines((before) => joined(before, batch.lines))
+            toEnd()
+          }
+        },
+      })
+      return stop
+    },
   )
   const toggle = (kind: Kind) =>
     setHidden((before) => {
@@ -119,13 +117,11 @@ const Live = (props: { readonly service: string }) => {
   }
   document.addEventListener("keydown", clear)
   onCleanup(() => document.removeEventListener("keydown", clear))
-  createEffect(
-    on(told, (said) => {
-      if (said === "") return
-      const timer = setTimeout(() => setTold(""), 2000)
-      onCleanup(() => clearTimeout(timer))
-    }),
-  )
+  createEffect(told, (said) => {
+    if (said === "") return
+    const timer = setTimeout(() => setTold(""), 2000)
+    return () => clearTimeout(timer)
+  })
   const resume = () => {
     setLines((before) => joined(before, waiting()))
     setWaiting([])
@@ -149,7 +145,7 @@ const Live = (props: { readonly service: string }) => {
               <button
                 type="button"
                 class={`filter level-${kind.value}`}
-                aria-pressed={!hidden().has(kind.value)}
+                aria-pressed={!hidden().has(kind.value) ? "true" : "false"}
                 onClick={() => toggle(kind.value)}
               >
                 {kind.label} {count(kind.value)}
@@ -247,14 +243,12 @@ export const LogsPanel = (props: { readonly service: string; readonly shown?: Lo
   let panel: HTMLElement | undefined
   // The address changed, by a link to these logs or Back: show what it asks for, and bring it into view.
   createEffect(
-    on(
-      () => props.shown,
-      (asked) => {
-        setShown(asked ?? shownFirst)
-        if (asked?.view === "errors") panel?.scrollIntoView?.({ block: "start" })
-      },
-      { defer: true },
-    ),
+    () => props.shown,
+    (asked) => {
+      setShown(asked ?? shownFirst)
+      if (asked?.view === "errors") panel?.scrollIntoView?.({ block: "start" })
+    },
+    { defer: true },
   )
   const view = () => shown().view
   const choose = (chosen: LogsShown) => {
@@ -271,10 +265,20 @@ export const LogsPanel = (props: { readonly service: string; readonly shown?: Lo
         </h2>
         <fieldset class="choices bare">
           <legend class="visually-hidden">Logs view</legend>
-          <button type="button" class="filter" aria-pressed={view() === "live"} onClick={() => setView("live")}>
+          <button
+            type="button"
+            class="filter"
+            aria-pressed={view() === "live" ? "true" : "false"}
+            onClick={() => setView("live")}
+          >
             Live
           </button>
-          <button type="button" class="filter" aria-pressed={view() === "errors"} onClick={() => setView("errors")}>
+          <button
+            type="button"
+            class="filter"
+            aria-pressed={view() === "errors" ? "true" : "false"}
+            onClick={() => setView("errors")}
+          >
             Errors
           </button>
         </fieldset>

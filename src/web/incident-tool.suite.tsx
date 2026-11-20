@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What the incident tool says of an incident, on its page: run by `incident-tool.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { IncidentRecord, ReadBack } from "../shared/incidents"

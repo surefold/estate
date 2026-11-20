@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A database's instances on its lane (spec 0060): the primary filled, each replica a ring, amber when behind, gone dashed. */
 import { For, Show } from "solid-js"
 import type { ServicesEvent } from "../../shared/events"

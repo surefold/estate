@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The states that are not the estate: signed out, signed in with no role, and the sources as they answer. */
 import { For, Show } from "solid-js"
 import type { ServicesEvent, SourceKind, SourceStatus } from "../../shared/events"

@@ -1,11 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One trace: in lanes, a row for each part of the estate it crossed with hand-offs between them, or as a waterfall
  * of its spans and the waits between them in time order. A wait longer than half the trace can be drawn short, so the
  * spans around it can be read. Choosing a step, in either, says what it was. Read once, for the environment the page
  * is in (spec 0046).
  */
-import { createEffect, createSignal, For, on, Show } from "solid-js"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import { placeOf, type TraceView } from "../../shared/trace-view"
 import { useEstate, useSnapshot } from "../context"
 import { took } from "../format"
@@ -27,7 +27,12 @@ const Toggle = <T extends string>(props: {
     <legend class="visually-hidden">{props.label}</legend>
     <For each={props.options}>
       {([value, words]) => (
-        <button type="button" class="choice" aria-pressed={props.value === value} onClick={() => props.choose(value)}>
+        <button
+          type="button"
+          class="choice"
+          aria-pressed={props.value === value ? "true" : "false"}
+          onClick={() => props.choose(value)}
+        >
           {words}
         </button>
       )}
@@ -44,13 +49,14 @@ const Read = (props: { readonly view: TraceView }) => {
   // Each stage's usual time, from the journey's own sample, to set each step beside.
   const [usual, setUsual] = createSignal<Usual | undefined>()
   createEffect(
-    on([() => props.view.journey?.name], ([journey]) => {
+    () => props.view.journey?.name,
+    (journey) => {
       setUsual(undefined)
       if (journey === undefined) return
       void actions.journey(journey).then((sample) => {
         if (typeof sample === "object") setUsual(sample.stages.map((stage) => stage.p50))
       })
-    }),
+    },
   )
   const drawn = (): Drawn => ({
     view: props.view,
@@ -118,10 +124,11 @@ export const TracePage = (props: { readonly id: string; readonly journey?: strin
   const snapshot = useSnapshot()
   const [read, setRead] = createSignal<TraceView | "none" | "loading" | undefined>("loading")
   createEffect(
-    on([() => props.id, () => props.journey, () => snapshot.environment], ([id, journey]) => {
+    () => [props.id, props.journey, snapshot.environment] as const,
+    ([id, journey]) => {
       setRead("loading")
       void actions.trace(id, journey).then(setRead)
-    }),
+    },
   )
   const found = () => {
     const now = read()

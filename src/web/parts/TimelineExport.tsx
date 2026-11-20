@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Beside a timeline's heading: Copy as Markdown, saying whether it was copied, and Download as Markdown or JSON; an
  * incident's also as a zip of everything kept of it.
@@ -35,7 +35,7 @@ export const TimelineExport = (props: { readonly of: Exported }) => {
   const href = (format: "md" | "json") => timelinePath(props.of, snapshot.environment, format)
   return (
     <div class="timeline-export">
-      <button type="button" class="plain-button" disabled={busy()} aria-busy={busy()} onClick={copy}>
+      <button type="button" class="plain-button" disabled={busy()} aria-busy={busy() ? "true" : "false"} onClick={copy}>
         Copy as Markdown
       </button>
       <span class="muted">Download</span>

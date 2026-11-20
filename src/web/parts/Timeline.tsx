@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's or a store's alerts over the last day, each a bar from when it fired to when it ended. */
 import { For, Show } from "solid-js"
 import { clock } from "../format"

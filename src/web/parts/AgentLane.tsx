@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An AI agent's lane: its health and why, the model it uses and since when, its runs, failures, slowest runs and
  * tokens over the last hour, its tokens against its budget, and its links and team.

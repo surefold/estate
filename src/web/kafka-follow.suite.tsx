@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A message followed through a Kafka store's cluster, in happy-dom: run by `kafka-follow.test.ts`. */
 import { describe, expect, jest, test } from "bun:test"
 import type { Events } from "../shared/events"

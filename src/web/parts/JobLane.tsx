@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A lane for a job no service owns: its health and why, what runs it, its last runs, when it runs next, its links. */
 import { For, Show } from "solid-js"
 import type { CatalogEvent, ServicesEvent } from "../../shared/events"

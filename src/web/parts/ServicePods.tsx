@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's pods (or tasks) as read from the cluster. */
 import { For, Show } from "solid-js"
 import type { ServiceState } from "../../shared/events"

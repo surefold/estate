@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Alerts: firing, pending and silenced together, filtered by state and service; what resolved today below. */
 import { createSignal, For, Show } from "solid-js"
 import type { Alert } from "../../shared/events"
@@ -54,7 +54,7 @@ export const Alerts = () => {
               {(each) => (
                 <button
                   type="button"
-                  aria-pressed={filter() === each.value}
+                  aria-pressed={filter() === each.value ? "true" : "false"}
                   class="filter"
                   onClick={() => setFilter(each.value)}
                 >

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A request rate that jumped, said on the overview. Not an alert. */
 import { For, Show } from "solid-js"
 import type { Series } from "../../shared/events"
