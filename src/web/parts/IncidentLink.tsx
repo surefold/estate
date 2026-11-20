@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An alert card's incident: which one it is part of, and for operators *Link to incident…*, a chooser of the incidents
  * open now and *New incident*. The card follows from the alerts the server sends, so a link done here shows there.
  */
-import { createSignal, For, onMount, Show } from "solid-js"
+import { createSignal, For, onSettled, Show } from "solid-js"
 import type { Alert, Me } from "../../shared/events"
 import type { Incident } from "../../shared/incidents"
 import { useEstate } from "../context"
@@ -57,6 +57,9 @@ export const IncidentChooser = (props: { readonly alert: Alert; readonly close: 
   /** The incident being linked to, or "new" while one is opened. */
   const [busy, setBusy] = createSignal<string | undefined>(undefined)
   const [refused, setRefused] = createSignal<string | undefined>(undefined)
+  let box: HTMLInputElement | undefined
+  // The button that opened the chooser is gone, so the focus comes to the title rather than to the page.
+  onSettled(() => box?.focus())
   // The open incident it is already part of is where it is; linking it there again does nothing.
   const offered = () => {
     const read = open()
@@ -85,7 +88,7 @@ export const IncidentChooser = (props: { readonly alert: Alert; readonly close: 
     void actions.openIncident(named, props.alert.id).then(done)
   }
   return (
-    <fieldset class="silencing incident-chooser" aria-busy={busy() !== undefined}>
+    <fieldset class="silencing incident-chooser" aria-busy={busy() !== undefined ? "true" : "false"}>
       <legend class="legend">Link {props.alert.name} to an incident</legend>
       <Show when={open() !== "reading"} fallback={<p class="alert-quiet">Reading the open incidents…</p>}>
         <Show when={open() !== undefined} fallback={<p class="alert-detail">The open incidents could not be read.</p>}>
@@ -97,7 +100,7 @@ export const IncidentChooser = (props: { readonly alert: Alert; readonly close: 
                     type="button"
                     class="choice incident-choice"
                     disabled={busy() !== undefined}
-                    aria-busy={busy() === incident.id}
+                    aria-busy={busy() === incident.id ? "true" : "false"}
                     onClick={() => link(incident)}
                   >
                     <Show when={busy() === incident.id} fallback={incident.title}>
@@ -113,11 +116,10 @@ export const IncidentChooser = (props: { readonly alert: Alert; readonly close: 
       <label class="reason">
         Or a new incident, titled
         <input
-          // The button that opened the chooser is gone, so the focus comes here rather than to the page.
-          ref={(box) => onMount(() => box.focus())}
+          ref={box}
           type="text"
           value={title()}
-          maxLength={longestTitle}
+          maxlength={longestTitle}
           onInput={(event) => setTitle(event.currentTarget.value)}
           placeholder="e.g. Chip registry slow"
           class="amber-input"
@@ -128,7 +130,7 @@ export const IncidentChooser = (props: { readonly alert: Alert; readonly close: 
           type="button"
           class="primary-button"
           disabled={title().trim() === "" || busy() !== undefined}
-          aria-busy={busy() === "new"}
+          aria-busy={busy() === "new" ? "true" : "false"}
           onClick={start}
         >
           <Show when={busy() === "new"} fallback="New incident">

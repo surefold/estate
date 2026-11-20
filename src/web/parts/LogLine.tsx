@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** One of a service's log lines: its time, pod, level badge, what wrote it, its trace and text, coloured by its level. */
 import { For, Show } from "solid-js"
 import type { LogLine } from "../../shared/log-events"
@@ -35,15 +35,17 @@ export const LineRow = (props: {
   readonly onCopy?: () => void
 }) => (
   <li
-    class={`log-line ${kindOf(props.line)}`}
-    classList={{ picked: props.picked === true, around: props.around === true, gap: props.gap === true }}
+    class={[
+      `log-line ${kindOf(props.line)}`,
+      { picked: props.picked === true, around: props.around === true, gap: props.gap === true },
+    ]}
   >
     <Show when={props.onPick} fallback={<span class="log-at">{clock(props.line.at)}</span>}>
       {(pick) => (
         <button
           type="button"
           class="log-at log-pick"
-          aria-pressed={props.picked === true}
+          aria-pressed={props.picked === true ? "true" : "false"}
           onClick={(event) => pick()(event.shiftKey)}
         >
           {clock(props.line.at)}

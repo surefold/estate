@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *What changed*: each of an incident's services' versions at its start, what was deployed or rolled back during it,
  * and at its close, or now while it is open, with a link to compare the two where the catalog gives one.
@@ -44,7 +44,7 @@ export const IncidentVersions = (props: {
                   <Show
                     when={row.environment}
                     fallback={
-                      <td colSpan={5} class="muted">
+                      <td colspan={5} class="muted">
                         No version is known for it.
                       </td>
                     }

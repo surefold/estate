@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The estate drawn live: its services and stores, and the traffic between them; amber is what needs someone. Past a
  * dozen nodes, a node a category, which opens in place. A large map or a narrow screen starts as areas (spec 0062).
@@ -65,7 +65,6 @@ export const EstateMap = (props: {
   // Laid out again only when the nodes or the lines between them change, not each time one changes its health.
   const shape = createMemo(
     () => ({ ids: drawn().nodes.map((node) => node.id), edges: drawn().edges.map(({ from, to }) => ({ from, to })) }),
-    undefined,
     { equals: sameShape },
   )
   const placed = createMemo(() => layout(shape().ids, shape().edges))
@@ -214,11 +213,7 @@ export const EstateMap = (props: {
 
   return (
     <Show when={props.catalog.map.nodes.length > 0}>
-      <figure
-        aria-labelledby="map-title"
-        class="panel map"
-        classList={{ "map-journeying": on.journey() !== undefined }}
-      >
+      <figure aria-labelledby="map-title" class={["panel map", { "map-journeying": on.journey() !== undefined }]}>
         <figcaption class="spread">
           <span id="map-title" class="strong">
             The estate, live

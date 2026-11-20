@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** *Around this alert* on its page, and the line on its card that says what was deployed just before it fired. */
-import { createEffect, createSignal, on, onCleanup, Show } from "solid-js"
+import { createEffect, createSignal, Show } from "solid-js"
 import type { AroundAlert } from "../../shared/around"
 import type { Alert } from "../../shared/events"
 import { changesNear, neighboursOf } from "../around"
@@ -13,19 +13,17 @@ export const Around = (props: { readonly alert: Alert }) => {
   const { actions } = useEstate()
   const [brief, setBrief] = createSignal<AroundAlert | "loading" | "failed">("loading")
   createEffect(
-    on(
-      () => props.alert.id,
-      (id) => {
-        let current = true
-        setBrief("loading")
-        void actions.around(id).then((read) => {
-          if (current) setBrief(read ?? "failed")
-        })
-        onCleanup(() => {
-          current = false
-        })
-      },
-    ),
+    () => props.alert.id,
+    (id) => {
+      let current = true
+      setBrief("loading")
+      void actions.around(id).then((read) => {
+        if (current) setBrief(read ?? "failed")
+      })
+      return () => {
+        current = false
+      }
+    },
   )
   const read = () => {
     const value = brief()

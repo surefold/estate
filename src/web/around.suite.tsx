@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** *Around this alert* on its page, and its line on the card: run by `around-ui.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import type { AroundAlert } from "../shared/around"

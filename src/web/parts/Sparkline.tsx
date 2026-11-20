@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A metric over the last hour, drawn small; amber when it is the thing that needs someone. Pointing reads a point. */
-import { createMemo, createSignal, on } from "solid-js"
+import { createMemo, createSignal, untrack } from "solid-js"
 import type { Series } from "../../shared/events"
 import { reading } from "../chart"
 import { useEstate } from "../context"
@@ -22,7 +22,10 @@ export const Spark = (props: {
   const [mark, setMark] = createSignal<number | undefined>(undefined)
   const points = () => props.series?.points ?? []
   // When the series was last read: the times of its points move on as it does.
-  const end = createMemo(on(() => props.series, now))
+  const end = createMemo(() => {
+    void props.series
+    return untrack(now)
+  })
   const read = () => reading(points(), end(), hour, mark())
   const current = () => measured(props.series?.now, props.unit)
   return (

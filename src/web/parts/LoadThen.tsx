@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A service's load around a past firing: from an hour before it fired to an hour after it ended, the firing shaded.
  * Its charts are picked for an incident over the range on screen (specs 0051 and 0063).
  */
-import { createEffect, createSignal, on, onCleanup } from "solid-js"
+import { createEffect, createSignal } from "solid-js"
 import type { Load } from "../../shared/events"
 import type { PastFiring } from "../../shared/firing"
 import { windowOf } from "../../shared/window"
@@ -26,16 +26,16 @@ export const LoadThen = (props: { readonly service: string; readonly firing: Pas
   // The window as the server reads it, so each point is drawn where it was read.
   const window = () => windowOf(asked().from, asked().to)
   createEffect(
-    on([() => props.service, () => JSON.stringify(asked())], ([service]) => {
+    () => [props.service, asked()] as const,
+    ([service, { from, to }]) => {
       let current = true
-      const { from, to } = asked()
       void actions
         .loadBetween(service, new Date(from).toISOString(), new Date(to).toISOString())
         .then((read) => current && setLoad(read))
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   const of = (panel: string) => ({ service: props.service, panel })
   const charts = pickingCharts()

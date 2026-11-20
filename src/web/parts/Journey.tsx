@@ -1,9 +1,11 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A journey on a service's page: where its time goes over a sample of recent traces, as one bar with a segment per
  * stage, the stages' p50 and p99, and one of its traces in lanes. Read when it is opened, for its environment.
  */
-import { createEffect, createSignal, For, type JSX, on, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import type { JourneySample } from "../../shared/traces"
 import { useEstate, useSnapshot } from "../context"
 import { took } from "../format"
@@ -63,7 +65,12 @@ const Read = (props: { readonly sample: JourneySample }) => {
           <legend class="visually-hidden">Percentile</legend>
           <For each={["p50", "p99"] as const}>
             {(each) => (
-              <button type="button" class="choice" aria-pressed={at() === each} onClick={() => setAt(each)}>
+              <button
+                type="button"
+                class="choice"
+                aria-pressed={at() === each ? "true" : "false"}
+                onClick={() => setAt(each)}
+              >
                 {each}
               </button>
             )}
@@ -74,8 +81,7 @@ const Read = (props: { readonly sample: JourneySample }) => {
         <For each={props.sample.stages}>
           {(stage, index) => (
             <span
-              class="journey-segment"
-              classList={{ "trace-wait": stage.kind === "gap", "trace-hot": index() === largest() }}
+              class={["journey-segment", { "trace-wait": stage.kind === "gap", "trace-hot": index() === largest() }]}
               style={{ "flex-grow": spreadAt(stage, at()) ?? 0 }}
               title={`${stage.title}: ${took(spreadAt(stage, at()) ?? 0)}`}
             />
@@ -100,7 +106,7 @@ const Read = (props: { readonly sample: JourneySample }) => {
           <tbody>
             <For each={props.sample.stages}>
               {(stage, index) => (
-                <tr classList={{ "journey-largest": index() === largest() }}>
+                <tr class={{ "journey-largest": index() === largest() }}>
                   <th scope="row">
                     {stage.title}
                     <Show when={stage.found < props.sample.sampled}>
@@ -128,7 +134,7 @@ const Read = (props: { readonly sample: JourneySample }) => {
               <button
                 type="button"
                 class="choice"
-                aria-pressed={picked() === example.id}
+                aria-pressed={picked() === example.id ? "true" : "false"}
                 onClick={() => setPicked(example.id)}
               >
                 {whyWords[example.why]} · {took(example.total)}
@@ -203,22 +209,26 @@ const JourneyPanel = (props: { readonly name: string; readonly title: string }) 
   const [open, setOpen] = createSignal(false)
   const [read, setRead] = createSignal<JourneySample | "none" | "loading" | undefined>("loading")
   createEffect(
-    on([open, () => props.name, () => snapshot.environment], ([shown, name]) => {
+    () => [open(), props.name, snapshot.environment] as const,
+    ([shown, name]) => {
       if (!shown) return
       setRead("loading")
       void actions.journey(name).then(setRead)
-    }),
+    },
   )
   const id = () => `journey-${props.name}`
   let section: HTMLElement | undefined
-  createEffect(() => {
-    if (asked() !== props.name) return
-    setOpen(true)
-    // Seen: cleared once this effect is done, so a later page with this journey does not open it unasked.
-    queueMicrotask(() => setAsked(undefined))
-    // After the page has drawn, so the panel is where it will stay.
-    setTimeout(() => section?.scrollIntoView({ behavior: "smooth", block: "start" }), 0)
-  })
+  createEffect(
+    () => asked() === props.name,
+    (now) => {
+      if (!now) return
+      setOpen(true)
+      // Seen: cleared once this effect is done, so a later page with this journey does not open it unasked.
+      queueMicrotask(() => setAsked(undefined))
+      // After the page has drawn, so the panel is where it will stay.
+      setTimeout(() => section?.scrollIntoView({ behavior: "smooth", block: "start" }), 0)
+    },
+  )
   return (
     <section aria-labelledby={id()} class="panel section-box" ref={section}>
       <div class="journey-head">
@@ -233,7 +243,7 @@ const JourneyPanel = (props: { readonly name: string; readonly title: string }) 
         <button
           type="button"
           class="plain-button"
-          aria-expanded={open()}
+          aria-expanded={open() ? "true" : "false"}
           aria-controls={`${id()}-body`}
           onClick={() => setOpen((now) => !now)}
         >

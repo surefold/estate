@@ -1,6 +1,7 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The page's store under a stream of events, in happy-dom: run by `store.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
+import { flush } from "solid-js"
 import { useSnapshot } from "./context"
 import { events, listening } from "./fixture"
 import { mount } from "./harness"
@@ -40,10 +41,13 @@ describe("the page's store", () => {
     const page = mount(() => <Probe />, { live: counted })
     const first = walked
     lose()
+    flush()
     expect(page.container.textContent).toBe("lost no feed")
     beat()
+    flush()
     expect(page.container.textContent).toBe("open no feed")
     send("feed", events.feed)
+    flush()
     expect(page.container.textContent).toBe(`open ${events.feed.items.length} feed`)
     expect(walked).toBe(first)
     page.dispose()

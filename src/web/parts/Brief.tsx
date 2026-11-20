@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Around this alert*, as the server gathered it: what changed near it, what sits next to it and how that is, its
  * errors from just before it fired, and its runbook's text.

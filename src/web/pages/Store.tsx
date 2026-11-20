@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A store in the chosen environment: its health, its stats over a range, the alerts about it, and a message followed. */
 import { For, Show } from "solid-js"
 import { useEstate, useSnapshot } from "../context"

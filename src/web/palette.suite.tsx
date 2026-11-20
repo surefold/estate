@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The jump palette, in happy-dom: run by `palette.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { events } from "./fixture"

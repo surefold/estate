@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Auto, Cards or Rows for what is firing, Rows unless chosen, kept in this browser: run by `alert-choice.test.ts`. */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

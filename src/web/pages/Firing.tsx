@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One past firing of an alert, to look back at: what happened, as Estate kept it. Nothing on it is live; it is read
  * once, for the environment the page is in.
  */
-import { createEffect, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import type { PastFiring } from "../../shared/firing"
 import { useEstate, useSnapshot } from "../context"
 import { clock, day, duration } from "../format"
@@ -115,16 +115,17 @@ export const FiringPage = (props: { readonly id: string; readonly at: string }) 
   const snapshot = useSnapshot()
   const [read, setRead] = createSignal<PastFiring | "none" | "loading" | undefined>("loading")
   createEffect(
-    on([() => props.id, () => props.at, () => snapshot.environment], ([id, at]) => {
+    () => [props.id, props.at, snapshot.environment] as const,
+    ([id, at]) => {
       let current = true
       setRead("loading")
       void actions.firing(id, at).then((found) => {
         if (current) setRead(found)
       })
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   const found = () => {
     const value = read()

@@ -1,7 +1,10 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Effect, Result } from "effect"
 import { fakeDynamo, note, usingNotes } from "./dynamo-fake"
 import { type Call, stubRemote } from "./remote"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 const withNotes = <A>(...asked: Parameters<typeof usingNotes<A>>) => Effect.runPromise(usingNotes(...asked))
 

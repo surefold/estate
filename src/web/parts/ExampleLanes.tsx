@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One of a journey's example traces in lanes, inside its panel on a service's page: read when it is picked, with its
  * long wait cut short and a step chosen to say what it was. Its own page has the waterfall and the true scale.
  */
-import { createEffect, createSignal, on, Show } from "solid-js"
+import { createEffect, createSignal, Show } from "solid-js"
 import { placeOf, type TraceView } from "../../shared/trace-view"
 import { useEstate, useSnapshot } from "../context"
 import { pathOf } from "../route"
@@ -22,11 +22,12 @@ export const ExampleLanes = (props: {
   const [read, setRead] = createSignal<TraceView | "none" | "loading" | undefined>("loading")
   const [chosen, setChosen] = createSignal<number | undefined>()
   createEffect(
-    on([() => props.id, () => props.journey, () => snapshot.environment], ([id, journey]) => {
+    () => [props.id, props.journey, snapshot.environment] as const,
+    ([id, journey]) => {
       setRead("loading")
       setChosen(undefined)
       void actions.trace(id, journey).then(setRead)
-    }),
+    },
   )
   const view = () => {
     const now = read()

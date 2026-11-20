@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's errors over the last day, counted under its health, linking to them in its Logs panel. */
 import { createSignal, onCleanup, Show } from "solid-js"
 import type { ErrorGroups } from "../../shared/log-events"

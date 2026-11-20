@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** How many held lines before and after each match the Live view shows with it (spec 0067), kept in this browser. */
 import { createSignal, For } from "solid-js"
 import { kept } from "../kept"

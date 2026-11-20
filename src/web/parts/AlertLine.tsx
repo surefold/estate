@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What a row about an alert says, shared by the rows of many alerts and the Alerts table: its dot and latest note. */
 import { Show } from "solid-js"
 import type { Alert } from "../../shared/events"

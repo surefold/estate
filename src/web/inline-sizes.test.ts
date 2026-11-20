@@ -1,5 +1,8 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, setDefaultTimeout, test } from "bun:test"
 import { Glob } from "bun"
+
+// The gate runs every check at once; on a busy machine these tests pass Bun's default five seconds.
+setDefaultTimeout(30_000)
 
 describe("the pages' text", () => {
   test("no part sets its size inline in px, so every size follows the browser's text size", async () => {

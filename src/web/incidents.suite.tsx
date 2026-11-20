@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The incidents' own page, and the way to it from every page: run by `incidents.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { mount } from "./harness"

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An AI agent at its own address: what its overview lane already shows, with runs on demand. */
 import { Show } from "solid-js"
 import { useSnapshot } from "../context"

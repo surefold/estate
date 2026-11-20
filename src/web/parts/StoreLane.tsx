@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A store's lane on the overview: its health and why, its stats over the last hour, and its links. */
 import { For } from "solid-js"
 import type { CatalogEvent, ServicesEvent } from "../../shared/events"

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** *What changed* on an incident's page: run by its `.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { mount } from "./harness"

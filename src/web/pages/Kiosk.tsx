@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The estate on a screen on the wall: what needs someone, and every service worst first, in type read from across a
  * room. Nothing to press. Environments take turns; a screen that has stopped being told says so in red.
  */
-import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show } from "solid-js"
+import { createEffect, createMemo, createSignal, For, onCleanup, onSettled, Show, untrack } from "solid-js"
 import type { Alert, Health, ServiceState } from "../../shared/events"
 import { useEstate, useSnapshot } from "../context"
 import { amount, clock, since } from "../format"
@@ -24,12 +24,11 @@ const words: Readonly<Record<Health, string>> = {
 
 const Card = (props: { readonly alert: Alert; readonly now: number }) => {
   const latest = () => props.alert.notes.at(-1)
-  const end = createMemo(
-    on(
-      () => props.alert.chart?.points,
-      () => props.now,
-    ),
-  )
+  // The time of the last points, not a clock: read again only when the points change.
+  const end = createMemo(() => {
+    void props.alert.chart?.points
+    return untrack(() => props.now)
+  })
   return (
     <article class={`kiosk-card ${props.alert.severity === "critical" ? "critical" : "attention"}`}>
       <div class="kiosk-card-top">
@@ -87,7 +86,7 @@ const stayAwake = () => {
   ask()
   const again = () => document.visibilityState === "visible" && ask()
   document.addEventListener("visibilitychange", again)
-  onCleanup(() => document.removeEventListener("visibilitychange", again))
+  return () => document.removeEventListener("visibilitychange", again)
 }
 
 export const Kiosk = (props: Narrowed) => {
@@ -98,7 +97,7 @@ export const Kiosk = (props: Narrowed) => {
   const [tick, setTick] = createSignal(now())
   const timer = setInterval(() => setTick(now()), 1000)
   onCleanup(() => clearInterval(timer))
-  onMount(stayAwake)
+  onSettled(stayAwake)
 
   const environments = me.screen?.environments ?? me.environments
   const every = me.screen?.every ?? 30
@@ -106,16 +105,14 @@ export const Kiosk = (props: Narrowed) => {
   const [chosenAt, setChosenAt] = createSignal(now())
   let turn: ReturnType<typeof setTimeout> | undefined
   createEffect(
-    on(
-      () => [snapshot.environment, firing().length] as const,
-      ([environment, count], previous) => {
-        if (previous?.[0] !== environment) setChosenAt(now())
-        clearTimeout(turn)
-        const next = nextOf(environments, environment)
-        if (environments.length > 1 && next !== undefined)
-          turn = setTimeout(() => actions.choose(next), turnOf(every, count))
-      },
-    ),
+    () => [snapshot.environment, firing().length] as const,
+    ([environment, count], previous) => {
+      if (previous?.[0] !== environment) setChosenAt(now())
+      clearTimeout(turn)
+      const next = nextOf(environments, environment)
+      if (environments.length > 1 && next !== undefined)
+        turn = setTimeout(() => actions.choose(next), turnOf(every, count))
+    },
   )
   onCleanup(() => clearTimeout(turn))
 

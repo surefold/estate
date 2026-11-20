@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Evidence*: the charts, logs and traces last kept for an incident, drawn from its record and not its sources, so they read
  * the same once the sources are gone; its span shaded and its events marked. An operator keeps them again while open.
@@ -37,7 +37,11 @@ export const IncidentEvidence = (props: { readonly record: IncidentRecord; reado
     })
   }
   return (
-    <section aria-labelledby="incident-evidence" class="panel section-box stack incident-evidence" aria-busy={busy()}>
+    <section
+      aria-labelledby="incident-evidence"
+      class="panel section-box stack incident-evidence"
+      aria-busy={busy() ? "true" : "false"}
+    >
       <div class="section-head">
         <h2 id="incident-evidence" class="section-title">
           Evidence

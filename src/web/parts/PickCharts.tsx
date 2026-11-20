@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One *Include charts…* for a panel of charts (spec 0063): it turns on a box on each chart, and what is ticked goes to
  * the incident at once, each chart over the range on screen.

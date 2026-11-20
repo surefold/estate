@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Notes written on an incident, newest first, which each of its firings' cards shows too. Anyone who may write adds
  * one while it is open; its author or an operator takes one back. A closed incident's notes are its record.
@@ -45,7 +45,11 @@ export const IncidentNotes = (props: {
     void actions.removeIncidentNote(props.incident.id, note).then(done)
   }
   return (
-    <section aria-labelledby="incident-notes" class="panel section-box stack incident-notes" aria-busy={busy()}>
+    <section
+      aria-labelledby="incident-notes"
+      class="panel section-box stack incident-notes"
+      aria-busy={busy() ? "true" : "false"}
+    >
       <h2 id="incident-notes" class="section-title">
         Notes
       </h2>
@@ -85,13 +89,13 @@ export const IncidentNotes = (props: {
             <input
               type="text"
               value={draft()}
-              maxLength={longestNote}
+              maxlength={longestNote}
               onInput={(event) => setDraft(event.currentTarget.value)}
               placeholder="What you found, shown on each of its firings"
               class="amber-input"
             />
           </label>
-          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy()}>
+          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy() ? "true" : "false"}>
             <Show when={busy()} fallback="Add note">
               <span class="ask-spinner" aria-hidden="true" />
               Adding…

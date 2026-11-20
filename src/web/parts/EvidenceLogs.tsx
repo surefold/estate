@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's logs as an incident's evidence kept them: its errors grouped by message, and its lines, with what was left out. */
 import { For, Show } from "solid-js"
 import type { KeptLogs } from "../../shared/evidence"

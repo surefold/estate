@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The alert permalink: run by `alert.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { events } from "./fixture"

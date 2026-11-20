@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What a trace's lanes and its waterfall share: where time falls on the track, the cut, the marks, the chosen step. */
 import { Show } from "solid-js"
 import type { Row, TraceView } from "../../shared/trace-view"

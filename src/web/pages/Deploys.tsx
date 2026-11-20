@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Deploys: every service across every environment, then each one's pipeline in the chosen environment. */
 import { For } from "solid-js"
 import type { DeploysEvent } from "../../shared/events"

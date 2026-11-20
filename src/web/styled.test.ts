@@ -16,7 +16,8 @@ const written = async (pattern: string) => {
 }
 
 describe("the pages' styles", () => {
+  // Compiling every page and part takes some seconds, and up to half a minute while the gate's other checks run.
   test("no page or part writes a style attribute into its template, so how it looks is the stylesheets'", async () => {
     expect(await written("{pages,parts}/*.tsx")).toEqual([])
-  })
+  }, 60_000)
 })

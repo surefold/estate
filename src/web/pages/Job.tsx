@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A job no service owns, at its own address: what its overview lane already shows. */
 import { Show } from "solid-js"
 import { useSnapshot } from "../context"

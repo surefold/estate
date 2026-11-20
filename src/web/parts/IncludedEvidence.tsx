@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * What people included in an incident (spec 0051), newest first: what it is, who included it, when and why, drawn as
  * where it was found. Whoever included it, or an operator, removes it, which hides it here and is kept as an event.

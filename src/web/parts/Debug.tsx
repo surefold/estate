@@ -1,6 +1,8 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's debug switch: on for a while under someone's name, then off by itself. */
-import { createSignal, For, type JSX, onMount, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createSignal, For, onSettled, Show } from "solid-js"
 import type { CatalogEvent, ServiceState } from "../../shared/events"
 import { useEstate } from "../context"
 import { clock } from "../format"
@@ -14,7 +16,7 @@ const spans = [
 /** A modal confirm, opened once it is on the page so the page behind waits; Escape closes it as Cancel does. */
 const Confirm = (props: { readonly onClose: () => void; readonly children: JSX.Element }) => {
   let dialog: HTMLDialogElement | undefined
-  onMount(() => dialog?.showModal())
+  onSettled(() => dialog?.showModal())
   return (
     <dialog ref={dialog} aria-labelledby="confirm-title" class="debug-confirm" onClose={() => props.onClose()}>
       <div class="stack">{props.children}</div>
@@ -57,7 +59,7 @@ export const DebugPanel = (props: {
                       {(span) => (
                         <button
                           type="button"
-                          aria-pressed={minutes() === span.minutes}
+                          aria-pressed={minutes() === span.minutes ? "true" : "false"}
                           class="choice debug-choice"
                           onClick={() => setMinutes(span.minutes)}
                         >

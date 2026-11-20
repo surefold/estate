@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Follow a message* on a Kafka store's cluster (spec 0057): a trace ID taken to the follow's own address, the message
  * read every 5 seconds until every group is past it, and its path in words above the diagram that marks it.
  */
-import { type Accessor, createEffect, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { type Accessor, createEffect, createSignal, For, Show } from "solid-js"
 import type { KafkaCluster } from "../../shared/kafka-cluster"
 import type { FollowedMessage } from "../../shared/kafka-message"
 import { useEstate } from "../context"
@@ -23,7 +23,8 @@ export const useFollowed = (
   const { actions } = useEstate()
   const [followed, setFollowed] = createSignal<FollowedMessage | string | undefined>()
   createEffect(
-    on([store, trace], ([store, trace]) => {
+    () => [store(), trace()] as const,
+    ([store, trace]) => {
       setFollowed(trace === undefined ? undefined : "Following the message…")
       if (trace === undefined) return
       let current = true
@@ -40,11 +41,11 @@ export const useFollowed = (
         timer = setTimeout(() => (document.visibilityState === "hidden" ? next() : read(true)), often)
       }
       read(false)
-      onCleanup(() => {
+      return () => {
         current = false
         clearTimeout(timer)
-      })
-    }),
+      }
+    },
   )
   return followed
 }

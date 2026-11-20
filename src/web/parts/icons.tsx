@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Small line icons, as SVG paths in a 14 by 14 box, for the links a service has. */
 const paths: Readonly<Record<string, string>> = {
   chat: "M2 2.5h10v6.5H6.5L3.5 11.5V9H2Z",

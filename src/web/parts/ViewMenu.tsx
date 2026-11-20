@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The overview's one place to choose how it is drawn (spec 0068): the map's layout and the services'. */
-import { createSignal, For, onCleanup, onMount } from "solid-js"
+import { createSignal, For, onCleanup, onSettled } from "solid-js"
 import type { Choice, MapLayout, ServicesLayout } from "../view-choices"
 
 const Options = <Value extends string>(props: { readonly legend: string; readonly choice: Choice<Value> }) => (
@@ -11,7 +11,7 @@ const Options = <Value extends string>(props: { readonly legend: string; readonl
         <button
           type="button"
           class="choice"
-          aria-pressed={props.choice.chosen() === each.value}
+          aria-pressed={props.choice.chosen() === each.value ? "true" : "false"}
           onClick={() => props.choice.choose(each.value)}
         >
           {each.label}
@@ -35,7 +35,7 @@ export const ViewMenu = (props: { readonly map: Choice<MapLayout>; readonly serv
     body.style.top = `${below.bottom + 6}px`
     body.style.right = `${Math.max(8, window.innerWidth - below.right)}px`
   }
-  onMount(() => body?.addEventListener("toggle", place))
+  onSettled(() => body?.addEventListener("toggle", place))
   onCleanup(() => body?.removeEventListener("toggle", place))
   return (
     <div class="view-menu">
@@ -44,7 +44,7 @@ export const ViewMenu = (props: { readonly map: Choice<MapLayout>; readonly serv
         type="button"
         class="plain-button view-menu-button"
         popovertarget="view-menu"
-        aria-expanded={open()}
+        aria-expanded={open() ? "true" : "false"}
       >
         View
       </button>

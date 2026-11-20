@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A trace in lanes: a row for each part of the estate it crossed, its spans placed in time, hand-offs between them. */
 import { For, Show } from "solid-js"
 import type { Row, TraceView } from "../../shared/trace-view"
@@ -40,9 +40,8 @@ export const Lanes = (props: Drawn) => {
             const [from, to] = [row.handedFrom ?? 0, row.lane]
             return (
               <span
-                class="trace-handoff"
+                class={["trace-handoff", { "trace-handoff-up": to < from }]}
                 aria-hidden="true"
-                classList={{ "trace-handoff-up": to < from }}
                 style={{
                   left: percent(props.place(row.from)),
                   top: `${Math.min(from, to) * LaneHeight + LaneHeight / 2}px`,
@@ -56,15 +55,17 @@ export const Lanes = (props: Drawn) => {
           {(row, index) => (
             <button
               type="button"
-              class={`trace-bar trace-${row.kind}`}
-              classList={{
-                "trace-failed": row.failed,
-                "trace-hot": hot(props.view, row),
-                "trace-nested": row.nested > 0,
-                "trace-slow": against(row, props.usual)?.slow === true,
-              }}
+              class={[
+                `trace-bar trace-${row.kind}`,
+                {
+                  "trace-failed": row.failed,
+                  "trace-hot": hot(props.view, row),
+                  "trace-nested": row.nested > 0,
+                  "trace-slow": against(row, props.usual)?.slow === true,
+                },
+              ]}
               aria-label={labelOf(props.view, row, against(row, props.usual)?.words)}
-              aria-pressed={props.chosen === index()}
+              aria-pressed={props.chosen === index() ? "true" : "false"}
               title={`${row.title}: ${took(row.to - row.from)}`}
               onClick={() => props.choose(index())}
               style={{

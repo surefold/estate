@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Many alerts read as one problem, grouped: run by `alert-groups.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A chart as an incident kept it, drawn from its points over the window it was read for, and read as a live chart is:
  * its highest, or the value at the moment marked, and the window's ends beneath it.

@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's errors over a window, grouped by message. */
-import { createEffect, createSignal, For, on, onCleanup, Show } from "solid-js"
+import { createEffect, createSignal, For, Show } from "solid-js"
 import type { ErrorGroups } from "../../shared/log-events"
 import { type ErrorWindow, useEstate, useSnapshot } from "../context"
 import { since } from "../format"
@@ -20,16 +20,17 @@ export const ErrorList = (props: {
   const [groups, setGroups] = createSignal<ErrorGroups | "none" | "loading" | undefined>("loading")
   const [open, setOpen] = createSignal<string | undefined>(undefined)
   createEffect(
-    on([() => props.service, () => JSON.stringify(props.window)], ([service]) => {
+    () => [props.service, props.window] as const,
+    ([service, window]) => {
       let current = true
       setGroups("loading")
-      void actions.errors(service, props.window).then((read) => {
+      void actions.errors(service, window).then((read) => {
         if (current) setGroups(read)
       })
-      onCleanup(() => {
+      return () => {
         current = false
-      })
-    }),
+      }
+    },
   )
   // Errors from a moment link to the last hour's, the nearest the service's page shows.
   const whence = () => ({
@@ -67,7 +68,7 @@ export const ErrorList = (props: {
                     <button
                       type="button"
                       class="error-head"
-                      aria-expanded={open() === group.shape}
+                      aria-expanded={open() === group.shape ? "true" : "false"}
                       onClick={() => setOpen(open() === group.shape ? undefined : group.shape)}
                     >
                       <span class="error-count">{group.count}×</span>
@@ -119,7 +120,12 @@ export const Errors = (props: {
         <legend class="visually-hidden">Over</legend>
         <For each={errorRanges}>
           {(each) => (
-            <button type="button" class="filter" aria-pressed={props.range === each} onClick={() => props.choose(each)}>
+            <button
+              type="button"
+              class="filter"
+              aria-pressed={props.range === each ? "true" : "false"}
+              onClick={() => props.choose(each)}
+            >
               {each}
             </button>
           )}

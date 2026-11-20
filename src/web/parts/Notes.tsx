@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * An alert's notes on its card, with its incident's among them: the newest few, *Show all*, each with who and when,
  * and a box to add one to the alert. On a card among others they fold to one line, the count and the latest.
@@ -29,7 +29,12 @@ const NotesLine = (props: {
 }) => {
   const { now } = useEstate()
   const toggle = () => (
-    <button type="button" class="note-more" aria-expanded={props.open} onClick={() => props.toggle()}>
+    <button
+      type="button"
+      class="note-more"
+      aria-expanded={props.open ? "true" : "false"}
+      onClick={() => props.toggle()}
+    >
       {props.open ? "Hide notes" : props.notes.length === 0 ? "Add a note" : "Show notes"}
     </button>
   )
@@ -119,7 +124,12 @@ export const Notes = (props: {
           )}
         </For>
         <Show when={notes().length > newest}>
-          <button type="button" class="note-more" aria-expanded={all()} onClick={() => setAll(!all())}>
+          <button
+            type="button"
+            class="note-more"
+            aria-expanded={all() ? "true" : "false"}
+            onClick={() => setAll(!all())}
+          >
             {all() ? "Show fewer" : `Show all ${notes().length} notes`}
           </button>
         </Show>

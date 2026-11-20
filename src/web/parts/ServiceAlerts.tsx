@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Alerts about a service: the "What's happening" block at the top of its page, firing ones and then silenced. */
 import { Show } from "solid-js"
 import type { Alert, CatalogEvent } from "../../shared/events"

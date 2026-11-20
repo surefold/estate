@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A silence undone where it was made: run by `unsilence.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Alert, Events } from "../shared/events"

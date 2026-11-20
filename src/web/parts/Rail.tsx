@@ -1,6 +1,6 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's pipeline in one environment as a rail: commit, build, chosen, running. */
-import { Index, Show } from "solid-js"
+import { For, Show } from "solid-js"
 import type { Build, DeploysEvent } from "../../shared/events"
 import { since } from "../format"
 
@@ -63,7 +63,7 @@ export const Rail = (props: { readonly pipeline: Pipeline; readonly version: str
   return (
     <div class="rail-box">
       <div role="img" aria-label={aria()} class="rail">
-        <Index each={props.pipeline.steps}>
+        <For keyed={false} each={props.pipeline.steps}>
           {(step, index) => {
             const look = () => looks[step()]
             const last = index === titles.length - 1
@@ -78,7 +78,7 @@ export const Rail = (props: { readonly pipeline: Pipeline; readonly version: str
               </span>
             )
           }}
-        </Index>
+        </For>
       </div>
       <div class="rail-notes mono">
         <span>{props.pipeline.sha ?? ""}</span>

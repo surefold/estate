@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Tell the team that owns an alert's service, in its Slack channel, once a firing; after that, a link to the thread,
  * where the firing's notes, silences and end follow.

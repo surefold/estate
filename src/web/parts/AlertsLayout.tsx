@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Auto, Cards or Rows for what is firing, Rows unless chosen (spec 0065), kept in this browser. */
 import { createSignal, For } from "solid-js"
 import type { Alert } from "../../shared/events"
@@ -37,7 +37,7 @@ export const LayoutChoice = (props: { readonly layout: Layout; readonly choose: 
         <button
           type="button"
           class="choice"
-          aria-pressed={props.layout === each.value}
+          aria-pressed={props.layout === each.value ? "true" : "false"}
           onClick={() => props.choose(each.value)}
         >
           {each.label}

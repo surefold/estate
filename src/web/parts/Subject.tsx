@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What an alert is about, as a link to its page: its service's, or else its store's. */
 import { Show } from "solid-js"
 import { pathOf } from "../route"

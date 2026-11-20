@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** Thin job and agent pages: run by `job-agent.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { App } from "./App"

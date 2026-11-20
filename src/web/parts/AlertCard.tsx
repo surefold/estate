@@ -1,7 +1,8 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An alert that needs someone: what fired against its threshold, its notes, Silence, Ask AI, and where to look. */
-import { createMemo, createSignal, For, on, Show } from "solid-js"
-import { Dynamic } from "solid-js/web"
+
+import { Dynamic } from "@solidjs/web"
+import { createMemo, createSignal, For, Show, untrack } from "solid-js"
 import type { Alert, CatalogEvent } from "../../shared/events"
 import { reading } from "../chart"
 import { useEstate } from "../context"
@@ -48,7 +49,10 @@ const Chart = (props: { readonly name: string; readonly chart: AlertChart }) => 
   const { now: clockNow } = useEstate()
   const [mark, setMark] = createSignal<number | undefined>(undefined)
   const now = () => props.chart.points.filter((point): point is number => point !== null).at(-1)
-  const end = createMemo(on(() => props.chart.points, clockNow))
+  const end = createMemo(() => {
+    void props.chart.points
+    return untrack(clockNow)
+  })
   const read = () => reading(props.chart.points, end(), hour, mark())
   return (
     <div>
@@ -103,7 +107,7 @@ const Silencing = (props: { readonly alert: Alert; readonly close: () => void })
           {(span) => (
             <button
               type="button"
-              aria-pressed={minutes() === span.minutes}
+              aria-pressed={minutes() === span.minutes ? "true" : "false"}
               class="choice"
               onClick={() => setMinutes(span.minutes)}
             >
@@ -240,7 +244,12 @@ export const AlertCard = (props: {
           <LinkToIncident onOpen={() => setLinking(true)} />
         </Show>
         <Show when={props.alert.service !== undefined}>
-          <button type="button" class="amber-button ghost" aria-pressed={lines()} onClick={() => setLines(!lines())}>
+          <button
+            type="button"
+            class="amber-button ghost"
+            aria-pressed={lines() ? "true" : "false"}
+            onClick={() => setLines(!lines())}
+          >
             Lines from then
           </button>
         </Show>

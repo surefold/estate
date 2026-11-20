@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service's running version in every environment it is in, so drift is plain without leaving the page. */
 import { For, Show } from "solid-js"
 import type { DeploysEvent, Health } from "../../shared/events"

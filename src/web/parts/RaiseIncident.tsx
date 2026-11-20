@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Raise incident. Where Estate has an incident tool (spec 0043), an operator raises the card's incident in it, opening
  * one titled with the alert's summary first if the card is in none; once raised, the card opens it there. Elsewhere,
@@ -62,7 +62,13 @@ export const RaiseIncident = (props: {
         <Show when={raisable()} fallback={<LinkOut alert={props.alert} links={props.links} class={style()} />}>
           {(tool) => (
             <span class="raise-incident">
-              <button type="button" class={style()} disabled={busy()} aria-busy={busy()} onClick={raise}>
+              <button
+                type="button"
+                class={style()}
+                disabled={busy()}
+                aria-busy={busy() ? "true" : "false"}
+                onClick={raise}
+              >
                 {busy() ? "Raising…" : `Raise in ${tool()}`}
               </button>
               <Show when={refused()}>

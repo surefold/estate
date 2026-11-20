@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A service or store found rather than written (specs 0031, 0057): where it was found, and its catalog entry. */
 import { createSignal, Show } from "solid-js"
 

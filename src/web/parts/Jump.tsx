@@ -1,9 +1,9 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * Jump to a service, store, job or agent: a search field in the header, and ⌘K (Ctrl K) from anywhere. It is a
  * combobox: focus stays in the field while the arrow keys move through the results, so a screen reader follows.
  */
-import { createEffect, createSignal, For, onCleanup, onMount, Show } from "solid-js"
+import { createEffect, createSignal, For, onSettled, Show } from "solid-js"
 import { useEstate, useSnapshot } from "../context"
 import { healthWords } from "../format"
 import { type JumpHit, type JumpKind, jumpHits, jumpRecent, recentHits, withHealth } from "../jump"
@@ -44,8 +44,7 @@ export const Jump = () => {
       .filter((group) => group.hits.length > 0)
   const indexOf = (hit: JumpHit) => hits().findIndex((each) => each.kind === hit.kind && each.name === hit.name)
 
-  createEffect(() => {
-    hits()
+  createEffect(hits, () => {
     setActive(0)
   })
 
@@ -91,7 +90,7 @@ export const Jump = () => {
     }
   }
 
-  onMount(() => {
+  onSettled(() => {
     const onChord = (event: KeyboardEvent) => {
       if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return
       event.preventDefault()
@@ -101,17 +100,19 @@ export const Jump = () => {
       input?.focus()
     }
     window.addEventListener("keydown", onChord)
-    onCleanup(() => window.removeEventListener("keydown", onChord))
+    return () => window.removeEventListener("keydown", onChord)
   })
 
   return (
     <div
       class="jump"
       // Listened for on the element itself, not delegated to the document: tabbing or clicking away closes it.
-      on:focusout={(event) => {
-        const next = event.relatedTarget
-        if (!(next instanceof Node && event.currentTarget.contains(next))) close(false)
-      }}
+      ref={(box) =>
+        box.addEventListener("focusout", (event) => {
+          const next = event.relatedTarget
+          if (!(next instanceof Node && box.contains(next))) close(false)
+        })
+      }
     >
       <div class="jump-field">
         <input
@@ -122,7 +123,7 @@ export const Jump = () => {
           placeholder="Search"
           aria-label="Jump to a service, store, job or agent"
           aria-autocomplete="list"
-          aria-expanded={open()}
+          aria-expanded={open() ? "true" : "false"}
           aria-controls="jump-palette"
           aria-activedescendant={open() && hits().length > 0 ? optionId(active()) : undefined}
           value={query()}
@@ -158,8 +159,8 @@ export const Jump = () => {
                         id={optionId(indexOf(hit))}
                         class="jump-hit"
                         role="option"
-                        tabIndex={-1}
-                        aria-selected={indexOf(hit) === active()}
+                        tabindex={-1}
+                        aria-selected={indexOf(hit) === active() ? "true" : "false"}
                         aria-label={`${hit.name}, ${group.title.toLowerCase().replace(/s$/, "")}`}
                         onMouseEnter={() => setActive(indexOf(hit))}
                         // Keep focus in the field, so choosing does not close the palette first.

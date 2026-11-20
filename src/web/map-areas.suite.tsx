@@ -1,8 +1,8 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The map as areas on the overview (spec 0062): run by `map-areas.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { events } from "./fixture"
-import { mount } from "./harness"
+import { fire, mount } from "./harness"
 import { Overview } from "./pages/Overview"
 
 describe("the map of a large estate as areas", () => {
@@ -69,5 +69,20 @@ describe("the map of a large estate as areas", () => {
       "svc-0",
       "svc-5",
     ])
+  })
+})
+
+describe("the overview's View menu", () => {
+  test("says it is open while it is, and closed again after", () => {
+    const page = mount(() => <Overview />)
+    const menu = page.container.querySelector("#view-menu")
+    if (menu === null) throw new Error("no View menu")
+    const expanded = () => page.button("View").getAttribute("aria-expanded")
+    expect(expanded()).toBe("false")
+    fire(menu, Object.assign(new Event("toggle"), { newState: "open" }))
+    expect(expanded()).toBe("true")
+    fire(menu, Object.assign(new Event("toggle"), { newState: "closed" }))
+    expect(expanded()).toBe("false")
+    page.dispose()
   })
 })

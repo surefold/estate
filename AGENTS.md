@@ -18,7 +18,8 @@ Estate is TypeScript on Bun, server and pages, for any estate, not one. The serv
 - **Effect's source is the reference.** The `effect` package ships its own source, its `AGENTS.md` and its
   `ai-docs` in `node_modules/effect/` (and `@effect/platform-bun` its source beside it). Read how Effect does a thing
   there, and prefer its patterns to a guess or a web search. Never edit or import from those paths directly.
-- **The pages are Solid.** Each `.tsx` starts with `/** @jsxImportSource solid-js */`. A part reads its props as
+- **The pages are Solid.** Solid 2: each `.tsx` starts with `/** @jsxImportSource @solidjs/web */`, and
+  `node_modules/solid-js/CHEATSHEET.md` is the reference for its API. A part reads its props as
   `props.x`, never destructured, and derives values as functions (`const state = () => …`), so that it updates;
   lists are `<For>`, conditions `<Show>`, state `createSignal`. The pages' tests are `*.suite.tsx`, imported by a
   `*.test.ts` once `inBrowser()` has set up happy-dom and Solid's compiler.

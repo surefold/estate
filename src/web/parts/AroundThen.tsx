@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What was around a past firing, from what Estate still holds: what changed before it, and what sits next to it. */
 import { For, Show } from "solid-js"
 import type { PastFiring } from "../../shared/firing"

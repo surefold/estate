@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A firing's timeline on its pages: run by `firing-timeline.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { mount } from "./harness"

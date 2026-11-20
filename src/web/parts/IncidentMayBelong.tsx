@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *May belong*, under an open incident's firings (spec 0042): the live firings, in any environment, suggested for it,
  * each with its reason, *Link* and *Not this*, for someone who may link. The page reads the incident again after either.

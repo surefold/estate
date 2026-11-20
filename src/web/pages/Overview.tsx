@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The overview: what needs you, counted once (spec 0068), as the headline and a row a thing; then the map, services
  * by area, worst first, and what changed. Alert → context, not vitals-first.

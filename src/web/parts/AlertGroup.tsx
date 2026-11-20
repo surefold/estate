@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An incident's firing alerts as one row, opening to their rows. */
 import { For, Show } from "solid-js"
 import { useEstate } from "../context"
@@ -29,7 +29,7 @@ export const AlertGroup = (props: Shown & { readonly group: Group }) => {
         <button
           type="button"
           class="row-toggle"
-          aria-expanded={open()}
+          aria-expanded={open() ? "true" : "false"}
           aria-controls={rows()}
           onClick={() => setOpen(!open())}
         >

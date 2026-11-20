@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The estate on a screen, in happy-dom: run by \`kiosk.test.ts\` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Events, Me } from "../shared/events"

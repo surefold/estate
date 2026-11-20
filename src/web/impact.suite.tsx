@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** An alert's impact on its card, in happy-dom: run by \`impact.test.ts\` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import type { Alert } from "../shared/events"

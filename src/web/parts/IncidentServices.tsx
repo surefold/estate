@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The services and stores an incident is about, its firings' and any an operator added, and the window its record
  * covers. An operator adds one while it is open, by its name in the catalog.
@@ -34,7 +34,11 @@ export const IncidentServices = (props: {
     })
   }
   return (
-    <section aria-labelledby="incident-services" class="panel section-box stack incident-services" aria-busy={busy()}>
+    <section
+      aria-labelledby="incident-services"
+      class="panel section-box stack incident-services"
+      aria-busy={busy() ? "true" : "false"}
+    >
       <h2 id="incident-services" class="section-title">
         Services
       </h2>
@@ -68,7 +72,7 @@ export const IncidentServices = (props: {
               class="amber-input"
             />
           </label>
-          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy()}>
+          <button type="submit" class="amber-button" disabled={busy()} aria-busy={busy() ? "true" : "false"}>
             Add service
           </button>
         </form>

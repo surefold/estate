@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** What each page draws from the fixture's events: run by `pages.test.ts` once Solid's compiler is in place. */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import { App } from "./App"

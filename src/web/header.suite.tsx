@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The header, on one row (spec 0068): run by `header.test.ts` once Solid's compiler is in place. */
 import { describe, expect, test } from "bun:test"
 import { events } from "./fixture"

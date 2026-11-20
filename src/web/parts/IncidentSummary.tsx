@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * *Summary* (spec 0051): Summarise asks the model Ask AI asks for an account of the incident, from everything on its
  * page; *Keep as note* keeps it on the incident, where the newest kept heads its export. Shown where `ai` is set.
@@ -54,7 +54,11 @@ export const IncidentSummary = (props: { readonly incident: Incident; readonly c
     })
   return (
     <Show when={me.ai === true}>
-      <section aria-labelledby="incident-summary" class="panel section-box stack incident-summary" aria-busy={busy()}>
+      <section
+        aria-labelledby="incident-summary"
+        class="panel section-box stack incident-summary"
+        aria-busy={busy() ? "true" : "false"}
+      >
         <div class="section-head">
           <h2 id="incident-summary" class="section-title">
             Summary

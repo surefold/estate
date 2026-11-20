@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A note's text as it was written, its lines kept; a long one shows its first two lines and *more*, so a kept AI
  * answer does not push a card's buttons, or the day's other changes, off the screen.
@@ -16,7 +16,12 @@ export const NoteText = (props: { readonly text: string }) => {
     <div class="note-text">
       <div class={`note-body${isLong(props.text) && !open() ? " clamped" : ""}`}>{props.text}</div>
       <Show when={isLong(props.text)}>
-        <button type="button" class="note-more" aria-expanded={open()} onClick={() => setOpen(!open())}>
+        <button
+          type="button"
+          class="note-more"
+          aria-expanded={open() ? "true" : "false"}
+          onClick={() => setOpen(!open())}
+        >
           {open() ? "less" : "more"}
         </button>
       </Show>

@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** The overview's lanes in happy-dom: grouped by category, and a job's: run by `lanes.test.ts` once Solid's compiler is in place. */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
 import { events } from "./fixture"

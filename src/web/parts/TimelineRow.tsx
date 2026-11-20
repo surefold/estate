@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * One line of a timeline: when, to the second, who, and what was done; on an incident's, which alert it was on. What a
  * person wrote later, or Estate rebuilt, is marked, saying on hover when it was kept.

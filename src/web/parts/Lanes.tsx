@@ -1,10 +1,12 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The overview's services by area, the areas that need someone first (spec 0068). In each, what is not healthy has
  * its lane, and the healthy services and stores are one line of links until opened; or every service in a grid.
  * Jobs and agents keep their lanes, for their schedules and budgets.
  */
-import { createSignal, For, type JSX, Show } from "solid-js"
+
+import type { JSX } from "@solidjs/web"
+import { createSignal, For, Show } from "solid-js"
 import type { Health } from "../../shared/events"
 import { useSnapshot } from "../context"
 import { type Group, groupsOf, needingFirst, otherwise } from "../groups"
@@ -122,7 +124,12 @@ export const Lanes = (props: { readonly layout: Choice<ServicesLayout>; readonly
                       )}
                     </For>
                   </Show>
-                  <button type="button" class="plain-button" aria-expanded={!folded()} onClick={() => toggle(group)}>
+                  <button
+                    type="button"
+                    class="plain-button"
+                    aria-expanded={!folded() ? "true" : "false"}
+                    onClick={() => toggle(group)}
+                  >
                     {folded() ? "Show their lanes" : "Fold them to a line"}
                     <span class="visually-hidden"> in {group.title ?? "Services"}</span>
                   </button>

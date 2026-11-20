@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * A service in the chosen environment: what's happening, what changed, where to look, then load, logs and pods.
  * Alert → context → investigation, not a chart dashboard.

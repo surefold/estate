@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /**
  * The incident in the incident tool (spec 0043): for an operator, *Raise in PagerDuty* while it is open and not yet
  * raised; once it is, what the tool says of it and a link to it there.
@@ -54,7 +54,13 @@ export const IncidentInTool = (props: {
         <Show when={raisable()}>
           {(tool) => (
             <div class="choices incident-tool">
-              <button type="button" class="primary-button" disabled={busy()} aria-busy={busy()} onClick={raise}>
+              <button
+                type="button"
+                class="primary-button"
+                disabled={busy()}
+                aria-busy={busy() ? "true" : "false"}
+                onClick={raise}
+              >
                 <Show when={busy()} fallback={`Raise in ${tool()}`}>
                   <span class="ask-spinner" aria-hidden="true" />
                   Raising…

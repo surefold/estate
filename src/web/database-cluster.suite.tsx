@@ -1,4 +1,4 @@
-/** @jsxImportSource solid-js */
+/** @jsxImportSource @solidjs/web */
 /** A database store's cluster on its page, in happy-dom: run by `database-cluster.test.ts`. */
 import { describe, expect, test } from "bun:test"
 import type { Events } from "../shared/events"
