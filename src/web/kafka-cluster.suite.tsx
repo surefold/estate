@@ -1,6 +1,7 @@
 /** @jsxImportSource @solidjs/web */
 /** A Kafka store's cluster on its page, in happy-dom: run by `kafka-cluster.test.ts` once Solid's compiler is in place. */
 import { describe, expect, jest, test } from "bun:test"
+import { flush } from "solid-js"
 import type { Events } from "../shared/events"
 import { events, operator } from "./fixture"
 import { kafkaCluster } from "./fixture-kafka"
@@ -105,15 +106,25 @@ describe("a Kafka store's cluster", () => {
     page.dispose()
   })
 
+  // Fake timers, as a busy machine fires real ones late and the count would depend on its load.
   test("is read again while the page is open, and no more once it is left", async () => {
-    const page = mount(() => <ClusterPanel store="bus" every={5} />, { sent: withBus })
-    await new Promise((resolve) => setTimeout(resolve, 30))
-    const read = page.calls.filter(([name]) => name === "storeCluster").length
-    expect(read).toBeGreaterThan(2)
-    expect(page.container.querySelector(".kafka-diagram")).not.toBeNull()
-    page.dispose()
-    await new Promise((resolve) => setTimeout(resolve, 30))
-    expect(page.calls.filter(([name]) => name === "storeCluster").length).toBe(read)
+    jest.useFakeTimers()
+    try {
+      const page = mount(() => <ClusterPanel store="bus" every={5} />, { sent: withBus })
+      // What was read is drawn a microtask later, which fake timers leave alone.
+      await Promise.resolve()
+      flush()
+      expect(page.container.querySelector(".kafka-diagram")).not.toBeNull()
+      const reads = () => page.calls.filter(([name]) => name === "storeCluster").length
+      jest.advanceTimersByTime(15)
+      const read = reads()
+      expect(read).toBeGreaterThan(2)
+      page.dispose()
+      jest.advanceTimersByTime(30)
+      expect(reads()).toBe(read)
+    } finally {
+      jest.useRealTimers()
+    }
   })
 
   test("is not read again while the tab is hidden, and is on coming back to it", () => {
