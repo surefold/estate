@@ -51,18 +51,23 @@ describe("the pages' bundle", () => {
     })
   })
 
-  test("is made by a process of its own, which says what went wrong when it cannot", () =>
-    Promise.all([bundle(join(import.meta.dir, "..", "web")), bundle(join(tmpdir(), "estate-nowhere"))]).then(
-      ([made, failed]) => {
-        expect(made.ok && made.outputs.map((output) => output.name.replace(/-[^-]+\./, ".")).toSorted()).toEqual([
-          "instrument-sans-latin.woff2",
-          "jetbrains-mono-latin.woff2",
-          "main.css",
-          "main.js",
-        ])
-        expect(failed.ok).toBe(false)
-      },
-    ))
+  // Building compiles every page; under the gate's other checks that passes five seconds, as the tests above do.
+  test(
+    "is made by a process of its own, which says what went wrong when it cannot",
+    () =>
+      Promise.all([bundle(join(import.meta.dir, "..", "web")), bundle(join(tmpdir(), "estate-nowhere"))]).then(
+        ([made, failed]) => {
+          expect(made.ok && made.outputs.map((output) => output.name.replace(/-[^-]+\./, ".")).toSorted()).toEqual([
+            "instrument-sans-latin.woff2",
+            "jetbrains-mono-latin.woff2",
+            "main.css",
+            "main.js",
+          ])
+          expect(failed.ok).toBe(false)
+        },
+      ),
+    30_000,
+  )
 
   test(
     "serves the fonts the pages are drawn in itself, byte for byte, and names no other host for them",
